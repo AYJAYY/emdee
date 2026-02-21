@@ -4,9 +4,10 @@
   font-size: var(--md-font-size, 17px);
   line-height: 1.78;
   color: var(--text-primary);
-  max-width: 740px;
+  max-width: 900px;
+  width: 100%;
   margin: 0 auto;
-  padding: 40px 56px 80px;
+  padding: 40px clamp(20px, 5vw, 72px) 80px;
   word-break: break-word;
 }
 
