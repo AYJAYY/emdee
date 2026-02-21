@@ -6,12 +6,6 @@
   background: var(--bg-app);
 }
 
-.layout {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
-
 .content-area {
   flex: 1;
   display: flex;

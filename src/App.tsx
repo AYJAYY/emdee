@@ -1,17 +1,16 @@
 import { useEffect } from "react";
 import { Toolbar } from "./components/Toolbar/Toolbar";
-import { FileTree } from "./components/FileTree/FileTree";
 import { MarkdownViewer } from "./components/MarkdownViewer/MarkdownViewer";
 import { WelcomeScreen } from "./components/WelcomeScreen/WelcomeScreen";
 import { useAppStore } from "./store/appStore";
-import { openFileDialog, openFolderDialog } from "./adapters/dialog";
-import { useFileTree } from "./hooks/useFileTree";
+import { openFileDialog } from "./adapters/dialog";
+import { useFile } from "./hooks/useFile";
 import { exportAsHtml } from "./utils/htmlExport";
 import "./App.css";
 
 export default function App() {
-  const { theme, currentFile, sidebarOpen, fileTree } = useAppStore();
-  const { openFile, loadFolder } = useFileTree();
+  const { theme, currentFile } = useAppStore();
+  const { openFile } = useFile();
 
   // Apply theme to html element
   useEffect(() => {
@@ -46,12 +45,6 @@ export default function App() {
           if (path) openFile(path);
           break;
         }
-        case "k": {
-          e.preventDefault();
-          const path = await openFolderDialog();
-          if (path) loadFolder(path);
-          break;
-        }
         case "d": {
           e.preventDefault();
           const cur = useAppStore.getState().theme;
@@ -67,7 +60,6 @@ export default function App() {
           e.preventDefault();
           const state = useAppStore.getState();
           if (state.currentFile) {
-            const { useMarkdown: _m } = await import("./hooks/useMarkdown");
             await exportAsHtml(
               document.querySelector(".md-body")?.innerHTML ?? "",
               state.theme,
@@ -82,18 +74,13 @@ export default function App() {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [openFile, loadFolder]);
-
-  const showSidebar = sidebarOpen && fileTree.length > 0;
+  }, [openFile]);
 
   return (
     <div className="app" data-theme={theme}>
       <Toolbar />
-      <div className="layout" role="presentation">
-        {showSidebar && <FileTree />}
-        <div className="content-area" role="presentation">
-          {currentFile ? <MarkdownViewer /> : <WelcomeScreen />}
-        </div>
+      <div className="content-area" role="presentation">
+        {currentFile ? <MarkdownViewer /> : <WelcomeScreen />}
       </div>
     </div>
   );

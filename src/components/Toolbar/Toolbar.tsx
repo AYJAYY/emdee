@@ -1,6 +1,6 @@
 import { useAppStore, type Theme } from "../../store/appStore";
-import { openFileDialog, openFolderDialog } from "../../adapters/dialog";
-import { useFileTree } from "../../hooks/useFileTree";
+import { openFileDialog } from "../../adapters/dialog";
+import { useFile } from "../../hooks/useFile";
 import { useMarkdown } from "../../hooks/useMarkdown";
 import { exportAsHtml } from "../../utils/htmlExport";
 import "./Toolbar.css";
@@ -18,26 +18,14 @@ const themeLabels: Record<Theme, string> = {
 };
 
 export function Toolbar() {
-  const {
-    theme, setTheme,
-    toggleSidebar, sidebarOpen,
-    fontSize, setFontSize,
-    currentFile, currentFolder,
-    currentContent,
-  } = useAppStore();
-  const { openFile, loadFolder } = useFileTree();
-
-  // Get the rendered HTML for export (same hook used by MarkdownViewer)
+  const { theme, setTheme, fontSize, setFontSize, currentFile, currentContent } =
+    useAppStore();
+  const { openFile } = useFile();
   const renderedHtml = useMarkdown(currentContent);
 
   async function handleOpenFile() {
     const path = await openFileDialog();
     if (path) openFile(path);
-  }
-
-  async function handleOpenFolder() {
-    const path = await openFolderDialog();
-    if (path) loadFolder(path);
   }
 
   function handlePrint() {
@@ -56,11 +44,7 @@ export function Toolbar() {
 
   const fileLabel = currentFile
     ? currentFile.split(/[/\\]/).pop() ?? currentFile
-    : currentFolder
-    ? currentFolder.split(/[/\\]/).pop() ?? currentFolder
     : "EmDee";
-
-  const hasFile = !!currentFile;
 
   return (
     <header className="toolbar" role="banner">
@@ -68,29 +52,16 @@ export function Toolbar() {
       <div className="toolbar__group">
         <button
           className="toolbar__btn"
-          onClick={toggleSidebar}
-          aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
-          aria-pressed={sidebarOpen}
+          onClick={handleOpenFile}
           type="button"
-          title="Toggle sidebar"
+          title="Open file (Ctrl+O)"
+          aria-label="Open markdown file"
         >
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="2"/>
-            <path d="M9 3v18"/>
-          </svg>
-        </button>
-
-        <button className="toolbar__btn" onClick={handleOpenFile} type="button" title="Open file (Ctrl+O)" aria-label="Open markdown file">
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <polyline points="14,2 14,8 20,8"/>
           </svg>
-        </button>
-
-        <button className="toolbar__btn" onClick={handleOpenFolder} type="button" title="Open folder (Ctrl+K)" aria-label="Open folder">
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-          </svg>
+          Open
         </button>
       </div>
 
@@ -140,14 +111,14 @@ export function Toolbar() {
 
         <div className="toolbar__divider" role="separator" />
 
-        {/* Export HTML — saves a self-contained .html file */}
+        {/* Export HTML */}
         <button
           className="toolbar__btn toolbar__btn--export"
           onClick={handleExportHtml}
           type="button"
-          title="Export as self-contained HTML file"
+          title="Export as HTML file"
           aria-label="Export as HTML"
-          disabled={!hasFile}
+          disabled={!currentFile}
         >
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="16 18 22 12 16 6"/>
@@ -156,14 +127,14 @@ export function Toolbar() {
           HTML
         </button>
 
-        {/* Print / Save as PDF — opens system print dialog */}
+        {/* Print / PDF */}
         <button
           className="toolbar__btn toolbar__btn--accent"
           onClick={handlePrint}
           type="button"
           title="Print or save as PDF (Ctrl+P)"
           aria-label="Print or save as PDF"
-          disabled={!hasFile}
+          disabled={!currentFile}
         >
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 6 2 18 2 18 9"/>
