@@ -4,6 +4,14 @@ import anchor from "markdown-it-anchor";
 import hljs from "highlight.js";
 import DOMPurify from "dompurify";
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function highlightCode(code: string, lang: string): string {
   if (lang && hljs.getLanguage(lang)) {
     try {
@@ -18,7 +26,7 @@ function highlightCode(code: string, lang: string): string {
   }
   return (
     `<pre class="hljs-block"><code class="hljs">` +
-    MarkdownIt().utils.escapeHtml(code) +
+    escapeHtml(code) +
     "</code></pre>"
   );
 }
@@ -40,7 +48,12 @@ md.use(anchor, {
 export function useMarkdown(content: string): string {
   return useMemo(() => {
     if (!content) return "";
-    const raw = md.render(content);
+    let raw: string;
+    try {
+      raw = md.render(content);
+    } catch {
+      return "";
+    }
     return DOMPurify.sanitize(raw, {
       // Allow id/class for heading anchors and syntax highlighting
       ADD_ATTR: ["id", "class", "href", "target"],

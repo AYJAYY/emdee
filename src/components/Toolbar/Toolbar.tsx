@@ -24,8 +24,12 @@ export function Toolbar() {
   const renderedHtml = useMarkdown(currentContent);
 
   async function handleOpenFile() {
-    const path = await openFileDialog();
-    if (path) openFile(path);
+    try {
+      const path = await openFileDialog();
+      if (path) openFile(path);
+    } catch {
+      // dialog dismissed or error — ignore
+    }
   }
 
   function handlePrint() {
@@ -34,7 +38,11 @@ export function Toolbar() {
 
   async function handleExportHtml() {
     if (!currentFile) return;
-    await exportAsHtml(renderedHtml, theme, fontSize, currentFile);
+    try {
+      await exportAsHtml(renderedHtml, theme, fontSize, currentFile);
+    } catch {
+      // export error — ignore silently
+    }
   }
 
   function cycleTheme() {

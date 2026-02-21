@@ -41,8 +41,12 @@ export default function App() {
       switch (e.key.toLowerCase()) {
         case "o": {
           e.preventDefault();
-          const path = await openFileDialog();
-          if (path) openFile(path);
+          try {
+            const path = await openFileDialog();
+            if (path) openFile(path);
+          } catch {
+            // dialog dismissed or error — ignore
+          }
           break;
         }
         case "d": {

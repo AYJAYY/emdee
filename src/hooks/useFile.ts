@@ -14,7 +14,8 @@ export function useFile() {
         setCurrentContent(content);
         setCurrentFile(path);
       } catch (e) {
-        setError(`Could not read file: ${e}`);
+        const msg = e instanceof Error ? e.message : String(e);
+        setError(`Could not read file: ${msg}`);
       } finally {
         setLoading(false);
       }
