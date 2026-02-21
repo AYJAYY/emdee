@@ -1,0 +1,116 @@
+.welcome {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-app);
+  padding: 2rem;
+}
+
+.welcome__inner {
+  text-align: center;
+  max-width: 460px;
+}
+
+/* Logo */
+.welcome__logo {
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+  user-select: none;
+}
+
+.welcome__logo-em {
+  color: var(--accent);
+}
+
+.welcome__logo-dee {
+  color: var(--text-primary);
+}
+
+.welcome__tagline {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Action buttons */
+.welcome__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.welcome__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7em 1.4em;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  font-family: inherit;
+}
+
+.welcome__btn:active { transform: scale(0.98); }
+.welcome__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.welcome__btn--primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+.welcome__btn--primary:hover {
+  background: color-mix(in srgb, var(--accent) 85%, black);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.welcome__btn--secondary {
+  background: var(--bg-content);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.welcome__btn--secondary:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+
+/* Tips */
+.welcome__tips {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.welcome__tips li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+kbd {
+  display: inline-block;
+  background: var(--bg-content);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  box-shadow: 0 1px 0 var(--border-strong);
+}

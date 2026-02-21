@@ -1,0 +1,112 @@
+/* ── Google Fonts ─────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* ── Light (default) ──────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --bg-app:        #f0f2f5;
+  --bg-sidebar:    #ffffff;
+  --bg-content:    #ffffff;
+  --bg-toolbar:    #ffffff;
+  --bg-code:       #1e1e2e;
+  --bg-code-inline:#f0f2f5;
+  --bg-blockquote: #f7f8fa;
+  --bg-table-alt:  #f7f8fa;
+  --bg-hover:      #eef0f4;
+  --bg-active:     #e4e8f0;
+
+  --text-primary:  #1a1a2e;
+  --text-secondary:#5a6070;
+  --text-muted:    #9098a8;
+  --text-code:     #cdd6f4;
+  --text-code-inline: #c0392b;
+  --text-link:     #2563eb;
+  --text-heading:  #0f172a;
+
+  --border:        #e2e6ed;
+  --border-strong: #c8cdd8;
+  --accent:        #2563eb;
+  --accent-light:  #dbeafe;
+
+  --blockquote-border: #2563eb;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.08);
+
+  --sidebar-width: 260px;
+  --toolbar-height: 48px;
+  --radius:        6px;
+}
+
+/* ── Dark ─────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg-app:        #11131a;
+  --bg-sidebar:    #171923;
+  --bg-content:    #1a1d27;
+  --bg-toolbar:    #171923;
+  --bg-code:       #0d0f17;
+  --bg-code-inline:#252836;
+  --bg-blockquote: #1e2130;
+  --bg-table-alt:  #1e2130;
+  --bg-hover:      #1f2335;
+  --bg-active:     #252a3d;
+
+  --text-primary:  #cdd6f4;
+  --text-secondary:#a6adc8;
+  --text-muted:    #6c7086;
+  --text-code:     #cdd6f4;
+  --text-code-inline:#f38ba8;
+  --text-link:     #89b4fa;
+  --text-heading:  #f4f4f5;
+
+  --border:        #2a2d3e;
+  --border-strong: #3d4260;
+  --accent:        #89b4fa;
+  --accent-light:  #1e2d4a;
+
+  --blockquote-border: #89b4fa;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md:     0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* ── Sepia ────────────────────────────────────────────────────── */
+[data-theme="sepia"] {
+  --bg-app:        #e8dcc8;
+  --bg-sidebar:    #f5efe0;
+  --bg-content:    #fdf8f0;
+  --bg-toolbar:    #f5efe0;
+  --bg-code:       #2c2416;
+  --bg-code-inline:#ede5d0;
+  --bg-blockquote: #f0e8d5;
+  --bg-table-alt:  #f0e8d5;
+  --bg-hover:      #ede5cf;
+  --bg-active:     #e0d5bc;
+
+  --text-primary:  #3b2f1e;
+  --text-secondary:#7a6548;
+  --text-muted:    #a89070;
+  --text-code:     #e8d8b0;
+  --text-code-inline:#8b3a0f;
+  --text-link:     #7c4a00;
+  --text-heading:  #2c1f0e;
+
+  --border:        #d8cbb0;
+  --border-strong: #c4b090;
+  --accent:        #7c4a00;
+  --accent-light:  #f5e8cc;
+
+  --blockquote-border: #b07840;
+  --shadow-sm:     0 1px 3px rgba(60,40,10,0.08);
+  --shadow-md:     0 4px 12px rgba(60,40,10,0.12);
+}
+
+/* ── Base reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}

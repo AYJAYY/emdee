@@ -1,0 +1,23 @@
+.content-scroll {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-content);
+  outline: none;
+  scroll-behavior: smooth;
+}
+
+.content-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Scrollbar styling */
+.content-scroll::-webkit-scrollbar { width: 8px; }
+.content-scroll::-webkit-scrollbar-track { background: transparent; }
+.content-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+.content-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
