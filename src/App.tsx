@@ -9,7 +9,7 @@ import { exportAsHtml } from "./utils/htmlExport";
 import "./App.css";
 
 export default function App() {
-  const { theme, currentFile } = useAppStore();
+  const { theme, currentFile, error, setError } = useAppStore();
   const { openFile } = useFile();
 
   // Apply theme to html element
@@ -76,11 +76,31 @@ export default function App() {
     return () => window.removeEventListener("keydown", handler);
   }, [openFile]);
 
+  function renderContent() {
+    if (error) {
+      return (
+        <div className="error-state" role="alert">
+          <div className="error-state__icon" aria-hidden="true">⚠</div>
+          <p className="error-state__message">{error}</p>
+          <button
+            className="error-state__dismiss"
+            onClick={() => setError(null)}
+            type="button"
+          >
+            Dismiss
+          </button>
+        </div>
+      );
+    }
+    if (currentFile) return <MarkdownViewer />;
+    return <WelcomeScreen />;
+  }
+
   return (
     <div className="app" data-theme={theme}>
       <Toolbar />
       <div className="content-area" role="presentation">
-        {currentFile ? <MarkdownViewer /> : <WelcomeScreen />}
+        {renderContent()}
       </div>
     </div>
   );

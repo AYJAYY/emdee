@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 import hljs from "highlight.js";
+import DOMPurify from "dompurify";
 
 function highlightCode(code: string, lang: string): string {
   if (lang && hljs.getLanguage(lang)) {
@@ -39,6 +40,12 @@ md.use(anchor, {
 export function useMarkdown(content: string): string {
   return useMemo(() => {
     if (!content) return "";
-    return md.render(content);
+    const raw = md.render(content);
+    return DOMPurify.sanitize(raw, {
+      // Allow id/class for heading anchors and syntax highlighting
+      ADD_ATTR: ["id", "class", "href", "target"],
+      // Allow <details>, <summary>, <kbd> etc.
+      ADD_TAGS: ["details", "summary", "kbd"],
+    });
   }, [content]);
 }

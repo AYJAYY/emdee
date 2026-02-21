@@ -1,15 +1,8 @@
 /**
  * File system adapter — abstracts Tauri fs APIs.
- * To migrate to a webapp: replace the Tauri imports with
- * the browser File System Access API or a backend API call.
+ * To migrate to a webapp: replace the Tauri invoke call with
+ * the browser File System Access API or a backend fetch.
  */
-
-export interface FileEntry {
-  name: string;
-  path: string;
-  isDir: boolean;
-  isMd: boolean;
-}
 
 declare global {
   interface Window {
@@ -28,12 +21,4 @@ export async function readFile(path: string): Promise<string> {
   // Web fallback
   const res = await fetch(path);
   return res.text();
-}
-
-export async function listDirectory(path: string): Promise<FileEntry[]> {
-  if (isTauri()) {
-    const { invoke } = await import("@tauri-apps/api/core");
-    return invoke<FileEntry[]>("list_directory", { path });
-  }
-  return [];
 }

@@ -12,3 +12,46 @@
   overflow: hidden;
   background: var(--bg-content);
 }
+
+/* ── Error state ─────────────────────────────────────────────── */
+.error-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  background: var(--bg-app);
+  text-align: center;
+}
+
+.error-state__icon {
+  font-size: 2.5rem;
+  color: #e85d4a;
+}
+
+.error-state__message {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.error-state__dismiss {
+  padding: 0.45em 1.2em;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-content);
+  color: var(--text-primary);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  transition: background 0.12s;
+}
+
+.error-state__dismiss:hover { background: var(--bg-hover); }
+.error-state__dismiss:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
