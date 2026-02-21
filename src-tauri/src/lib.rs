@@ -26,7 +26,7 @@ fn get_initial_file(state: tauri::State<'_, InitialFile>) -> Option<String> {
     state.0.lock().ok()?.clone()
 }
 
-/// List a directory's contents, sorted: directories first, then .md files, then others
+/// List a directory's contents — directories and .md/.markdown files only, sorted
 #[tauri::command]
 fn list_directory(path: String) -> Result<Vec<FileEntry>, String> {
     let dir = Path::new(&path);
@@ -50,7 +50,12 @@ fn list_directory(path: String) -> Result<Vec<FileEntry>, String> {
                 .extension()
                 .map(|e| e.to_string_lossy().to_lowercase())
                 .unwrap_or_default();
-            let is_md = matches!(ext.as_str(), "md" | "markdown" | "txt");
+            let is_md = matches!(ext.as_str(), "md" | "markdown");
+
+            // Only include directories and markdown files
+            if !is_dir && !is_md {
+                return None;
+            }
 
             Some(FileEntry {
                 name,
@@ -61,17 +66,11 @@ fn list_directory(path: String) -> Result<Vec<FileEntry>, String> {
         })
         .collect();
 
-    // Sort: dirs first (alphabetically), then md files, then others
-    items.sort_by(|a, b| {
-        match (a.is_dir, b.is_dir) {
-            (true, false) => std::cmp::Ordering::Less,
-            (false, true) => std::cmp::Ordering::Greater,
-            _ => match (a.is_md, b.is_md) {
-                (true, false) => std::cmp::Ordering::Less,
-                (false, true) => std::cmp::Ordering::Greater,
-                _ => a.name.to_lowercase().cmp(&b.name.to_lowercase()),
-            },
-        }
+    // Sort: directories first, then markdown files — both groups alphabetically
+    items.sort_by(|a, b| match (a.is_dir, b.is_dir) {
+        (true, false) => std::cmp::Ordering::Less,
+        (false, true) => std::cmp::Ordering::Greater,
+        _ => a.name.to_lowercase().cmp(&b.name.to_lowercase()),
     });
 
     Ok(items)
