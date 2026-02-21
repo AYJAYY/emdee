@@ -60,7 +60,7 @@ export async function exportAsHtml(
   fontSize: number,
   sourceFilePath: string
 ): Promise<"saved" | "cancelled" | "error"> {
-  const baseName = sourceFilePath.split("/").pop()?.replace(/\.(md|markdown|txt)$/i, "") ?? "document";
+  const baseName = sourceFilePath.split(/[/\\]/).pop()?.replace(/\.(md|markdown|txt)$/i, "") ?? "document";
   const defaultName = `${baseName}.html`;
   const title = baseName;
 

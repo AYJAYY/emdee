@@ -18,6 +18,21 @@ export default function App() {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
+  // Open file passed as CLI argument (e.g. double-clicked .md file on Windows)
+  useEffect(() => {
+    async function checkInitialFile() {
+      if (!window.__TAURI_INTERNALS__) return;
+      try {
+        const { invoke } = await import("@tauri-apps/api/core");
+        const path = await invoke<string | null>("get_initial_file");
+        if (path) openFile(path);
+      } catch {
+        // not in Tauri context or no initial file
+      }
+    }
+    checkInitialFile();
+  }, [openFile]);
+
   // Global keyboard shortcuts
   useEffect(() => {
     const handler = async (e: KeyboardEvent) => {

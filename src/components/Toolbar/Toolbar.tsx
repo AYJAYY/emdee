@@ -55,9 +55,9 @@ export function Toolbar() {
   }
 
   const fileLabel = currentFile
-    ? currentFile.split("/").pop() ?? currentFile
+    ? currentFile.split(/[/\\]/).pop() ?? currentFile
     : currentFolder
-    ? currentFolder.split("/").pop() ?? currentFolder
+    ? currentFolder.split(/[/\\]/).pop() ?? currentFolder
     : "EmDee";
 
   const hasFile = !!currentFile;

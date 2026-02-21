@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::Path;
+use std::sync::Mutex;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct FileEntry {
@@ -10,10 +11,19 @@ pub struct FileEntry {
     pub is_md: bool,
 }
 
+/// Holds the file path passed as a CLI argument (e.g. double-clicked .md file)
+struct InitialFile(Mutex<Option<String>>);
+
 /// Read a text file and return its contents
 #[tauri::command]
 fn read_file(path: String) -> Result<String, String> {
     fs::read_to_string(&path).map_err(|e| format!("Failed to read file: {e}"))
+}
+
+/// Return the file path passed at launch (double-click / CLI). Called once by the frontend on startup.
+#[tauri::command]
+fn get_initial_file(state: tauri::State<'_, InitialFile>) -> Option<String> {
+    state.0.lock().ok()?.clone()
 }
 
 /// List a directory's contents, sorted: directories first, then .md files, then others
@@ -69,7 +79,13 @@ fn list_directory(path: String) -> Result<Vec<FileEntry>, String> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Capture file path from CLI args — set when user double-clicks a .md file
+    let initial_file = std::env::args()
+        .nth(1)
+        .filter(|p| Path::new(p).is_file());
+
     tauri::Builder::default()
+        .manage(InitialFile(Mutex::new(initial_file)))
         .setup(|app| {
             if cfg!(debug_assertions) {
                 app.handle().plugin(
@@ -83,7 +99,11 @@ pub fn run() {
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![read_file, list_directory])
+        .invoke_handler(tauri::generate_handler![
+            read_file,
+            list_directory,
+            get_initial_file
+        ])
         .run(tauri::generate_context!())
         .expect("error while running EmDee");
 }
