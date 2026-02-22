@@ -1,26 +1,27 @@
 # EmDee
 
-A beautiful, fast Markdown viewer for Windows and Linux. Built with Tauri + React + TypeScript.
+A beautiful, fast Markdown viewer for Windows. Built with Tauri + React + TypeScript.
 
 ## Features
 
 - Beautiful typography — comfortable reading at any length
 - GitHub Flavored Markdown with code syntax highlighting
-- Folder tree sidebar — browse a directory of `.md` files like a vault
-- Three themes: Light, Dark, Sepia
+- Three themes: Light, Dark, Sepia — auto-detected from your OS
+- Find in document with highlighted matches (`Ctrl+F`)
+- Word count and reading time in the toolbar
+- Recently opened files on the welcome screen
 - Adjustable font size
-- Export to PDF via system print dialog
+- Export to HTML or PDF
 - Keyboard shortcuts for everything
-- Webapp-ready architecture (see `src/adapters/`)
-
 ## Keyboard Shortcuts
 
 | Shortcut | Action |
 |---|---|
 | `Ctrl+O` | Open file |
-| `Ctrl+K` | Open folder |
+| `Ctrl+F` | Find in document |
 | `Ctrl+D` | Toggle dark mode |
-| `Ctrl+P` | Export to PDF |
+| `Ctrl+P` | Print / PDF |
+| `Ctrl+E` | Export as HTML |
 
 ## Development
 
@@ -51,16 +52,12 @@ npm run tauri build
 
 ```
 src/
-├── adapters/       # Tauri ↔ Web API abstraction layer (swap here for webapp)
+├── adapters/       # Tauri API abstraction layer
 ├── components/     # React UI components
-├── hooks/          # useMarkdown, useFileTree
+├── hooks/          # useMarkdown, useFile, useWordCount
 ├── store/          # Zustand global state
-└── styles/         # Themes, markdown typography, print CSS
+├── styles/         # Themes, markdown typography, print CSS
+└── utils/          # announce, htmlExport
 src-tauri/
-└── src/lib.rs      # Rust: read_file, list_directory commands
+└── src/lib.rs      # Rust: read_file command
 ```
-
-## Migrating to a Webapp
-
-Only `src/adapters/fs.ts` and `src/adapters/dialog.ts` reference Tauri APIs.
-Replace them with the browser [File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_API) and everything else works unchanged.
