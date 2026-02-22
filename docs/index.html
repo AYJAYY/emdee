@@ -6,6 +6,15 @@
   <meta name="description" content="EmDee is a fast, clean Markdown viewer for Windows. Beautiful typography, three themes, find-in-document, and PDF export — free and open source." />
   <title>EmDee — Beautiful Markdown Viewer</title>
   <style>
+    /* ── Fonts ────────────────────────────────────────────────── */
+    @font-face {
+      font-family: "Inter";
+      src: url("inter.woff2") format("woff2-variations");
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
     /* ── Reset & base ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,7 +35,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       background: var(--dark);
       color: var(--text);
       line-height: 1.65;
