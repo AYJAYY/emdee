@@ -214,29 +214,49 @@
 
     .window__bar {
       background: #171923;
-      padding: 0 14px;
-      height: 42px;
+      padding: 0 0 0 14px;
+      height: 32px;
       display: flex;
       align-items: center;
       gap: 8px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      user-select: none;
     }
-    .window__dot {
-      width: 12px; height: 12px;
-      border-radius: 50%;
+
+    .window__app-icon {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      background: linear-gradient(135deg, #7c5ce8, #5D3FD3);
       flex-shrink: 0;
     }
-    .window__dot--red    { background: #ff5f57; }
-    .window__dot--yellow { background: #febc2e; }
-    .window__dot--green  { background: #28c840; }
 
     .window__title {
       flex: 1;
-      text-align: center;
-      font-size: 0.75rem;
-      color: #6c7086;
-      font-weight: 500;
+      font-size: 0.72rem;
+      color: #8b90a0;
+      font-weight: 400;
     }
+
+    .window__controls {
+      display: flex;
+      align-items: stretch;
+      height: 32px;
+      margin-left: auto;
+    }
+
+    .window__ctrl {
+      width: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: #8b90a0;
+      cursor: default;
+      transition: background 0.1s;
+    }
+    .window__ctrl:hover { background: rgba(255,255,255,0.08); color: #cdd6f4; }
+    .window__ctrl--close:hover { background: #c42b1c; color: #fff; }
 
     .window__toolbar {
       background: #171923;
@@ -418,13 +438,21 @@
     }
 
     .swatch__bar {
-      height: 32px;
+      height: 22px;
       display: flex;
       align-items: center;
-      padding: 0 10px;
+      padding: 0 8px;
       gap: 5px;
+      font-size: 0.6rem;
     }
-    .swatch__dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    .swatch__bar-title { flex: 1; }
+
+    .swatch__ctrl {
+      width: 18px;
+      text-align: center;
+      font-size: 0.55rem;
+    }
 
     .swatch__body {
       padding: 12px 14px;
@@ -441,34 +469,25 @@
     }
 
     /* Light swatch */
-    .swatch--light .swatch__bar  { background: #ffffff; }
-    .swatch--light .swatch__body { background: #ffffff; }
-    .swatch--light .swatch__h    { color: #0f172a; }
-    .swatch--light .swatch__p    { color: #5a6070; }
+    .swatch--light .swatch__bar   { background: #ffffff; color: #9098a8; }
+    .swatch--light .swatch__body  { background: #ffffff; }
+    .swatch--light .swatch__h     { color: #0f172a; }
+    .swatch--light .swatch__p     { color: #5a6070; }
     .swatch--light .swatch__label { background: #f0f2f5; color: #5D3FD3; }
-    .swatch--light .swatch__dot:nth-child(1) { background: #ff5f57; }
-    .swatch--light .swatch__dot:nth-child(2) { background: #febc2e; }
-    .swatch--light .swatch__dot:nth-child(3) { background: #28c840; }
 
     /* Dark swatch */
-    .swatch--dark .swatch__bar  { background: #171923; }
-    .swatch--dark .swatch__body { background: #1a1d27; }
-    .swatch--dark .swatch__h    { color: #f4f4f5; }
-    .swatch--dark .swatch__p    { color: #8b90a0; }
+    .swatch--dark .swatch__bar   { background: #171923; color: #6c7086; }
+    .swatch--dark .swatch__body  { background: #1a1d27; }
+    .swatch--dark .swatch__h     { color: #f4f4f5; }
+    .swatch--dark .swatch__p     { color: #8b90a0; }
     .swatch--dark .swatch__label { background: #11131a; color: #a78bfa; }
-    .swatch--dark .swatch__dot:nth-child(1) { background: #ff5f57; }
-    .swatch--dark .swatch__dot:nth-child(2) { background: #febc2e; }
-    .swatch--dark .swatch__dot:nth-child(3) { background: #28c840; }
 
     /* Sepia swatch */
-    .swatch--sepia .swatch__bar  { background: #f5efe0; }
-    .swatch--sepia .swatch__body { background: #fdf8f0; }
-    .swatch--sepia .swatch__h    { color: #2c1f0e; }
-    .swatch--sepia .swatch__p    { color: #7a6548; }
+    .swatch--sepia .swatch__bar   { background: #f5efe0; color: #a89070; }
+    .swatch--sepia .swatch__body  { background: #fdf8f0; }
+    .swatch--sepia .swatch__h     { color: #2c1f0e; }
+    .swatch--sepia .swatch__p     { color: #7a6548; }
     .swatch--sepia .swatch__label { background: #e8dcc8; color: #7c4a00; }
-    .swatch--sepia .swatch__dot:nth-child(1) { background: #ff5f57; }
-    .swatch--sepia .swatch__dot:nth-child(2) { background: #febc2e; }
-    .swatch--sepia .swatch__dot:nth-child(3) { background: #28c840; }
 
     /* ── Download CTA ─────────────────────────────────────────── */
     .download {
@@ -624,10 +643,13 @@
     <div class="window-wrap" aria-hidden="true">
       <div class="window" role="img" aria-label="EmDee app screenshot mockup showing a markdown document in dark theme">
         <div class="window__bar">
-          <div class="window__dot window__dot--red"></div>
-          <div class="window__dot window__dot--yellow"></div>
-          <div class="window__dot window__dot--green"></div>
+          <div class="window__app-icon"></div>
           <div class="window__title">README.md — EmDee</div>
+          <div class="window__controls">
+            <div class="window__ctrl" aria-hidden="true">&#x2014;</div>
+            <div class="window__ctrl" aria-hidden="true">&#x2610;</div>
+            <div class="window__ctrl window__ctrl--close" aria-hidden="true">&#x2715;</div>
+          </div>
         </div>
         <div class="window__toolbar">
           <div class="window__tbtn">📄 Open</div>
@@ -723,9 +745,10 @@
 
         <div class="swatch swatch--light" role="listitem">
           <div class="swatch__bar">
-            <div class="swatch__dot"></div>
-            <div class="swatch__dot"></div>
-            <div class="swatch__dot"></div>
+            <span class="swatch__bar-title">EmDee</span>
+            <span class="swatch__ctrl">—</span>
+            <span class="swatch__ctrl">□</span>
+            <span class="swatch__ctrl">✕</span>
           </div>
           <div class="swatch__body">
             <div class="swatch__h">Getting Started</div>
@@ -736,9 +759,10 @@
 
         <div class="swatch swatch--dark" role="listitem">
           <div class="swatch__bar">
-            <div class="swatch__dot"></div>
-            <div class="swatch__dot"></div>
-            <div class="swatch__dot"></div>
+            <span class="swatch__bar-title">EmDee</span>
+            <span class="swatch__ctrl">—</span>
+            <span class="swatch__ctrl">□</span>
+            <span class="swatch__ctrl">✕</span>
           </div>
           <div class="swatch__body">
             <div class="swatch__h">Getting Started</div>
@@ -749,9 +773,10 @@
 
         <div class="swatch swatch--sepia" role="listitem">
           <div class="swatch__bar">
-            <div class="swatch__dot"></div>
-            <div class="swatch__dot"></div>
-            <div class="swatch__dot"></div>
+            <span class="swatch__bar-title">EmDee</span>
+            <span class="swatch__ctrl">—</span>
+            <span class="swatch__ctrl">□</span>
+            <span class="swatch__ctrl">✕</span>
           </div>
           <div class="swatch__body">
             <div class="swatch__h">Getting Started</div>
