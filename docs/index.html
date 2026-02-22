@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="EmDee is a fast, clean Markdown viewer for Windows. Beautiful typography, three themes, find-in-document, and PDF export — free and open source." />
+  <meta name="description" content="EmDee is a fast, clean Markdown viewer for Windows &amp; Linux. Beautiful typography, three themes, find-in-document, and PDF export — free and open source." />
   <title>EmDee — Beautiful Markdown Viewer</title>
   <link rel="icon" type="image/png" href="logo.png" />
   <style>
@@ -536,10 +536,45 @@
       margin-top: 0.5rem;
     }
 
-    .download__winget {
-      margin-top: 2rem;
-      display: inline-block;
+    .download__grid {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .download__card {
       background: var(--dark-card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 240px;
+    }
+
+    .download__card-os {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .download__card-note {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 240px;
+    }
+
+    .download__winget {
+      display: inline-block;
+      background: var(--dark-mid);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: var(--radius);
       padding: 0.6em 1.2em;
@@ -823,31 +858,54 @@
       <p class="section__label" aria-hidden="true">Download</p>
       <h2 id="download-heading" class="section__title">Ready to read?</h2>
       <p class="section__sub" style="margin:0 auto 2rem;">Free, open source, and always will be.</p>
-      <a
-        href="https://github.com/AYJAYY/emdee/releases/download/v0.2.1/EmDee_0.2.1_x64-setup.exe"
-        class="btn btn--primary"
-        style="font-size:1.05rem;padding:0.85em 2em;"
-        aria-label="Download EmDee 0.2.1 installer for Windows x64"
-      >
-        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        Download EmDee 0.2.1
-      </a>
-      <p class="download__version">Windows 10 / 11 · x64 · 5 MB</p>
-      <p class="download__requirements">
-        Windows may show a SmartScreen prompt on first run —
-        click <strong>More info → Run anyway</strong>.
-      </p>
-      <p class="download__requirements" style="margin-top:1rem;">
-        Linux users: <a href="https://github.com/AYJAYY/emdee/releases" target="_blank" rel="noopener noreferrer" style="color:var(--purple-light);">.deb / .AppImage builds available on the releases page</a>.
-      </p>
-      <div>
-        <code class="download__winget">
-          <span>winget</span> install AYJAYY.EmDee
-        </code>
+
+      <div class="download__grid" role="list" aria-label="Download options">
+
+        <div class="download__card" role="listitem">
+          <p class="download__card-os">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            Windows
+          </p>
+          <a
+            href="https://github.com/AYJAYY/emdee/releases/download/v0.2.1/EmDee_0.2.1_x64-setup.exe"
+            class="btn btn--primary"
+            aria-label="Download EmDee 0.2.1 installer for Windows x64"
+          >
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            .exe Installer
+          </a>
+          <p class="download__card-note">Windows 10 / 11 · x64</p>
+          <p class="download__card-note">SmartScreen prompt on first run — click <strong>More info → Run anyway</strong></p>
+          <code class="download__winget" style="margin-top:0.75rem;"><span>winget</span> install AYJAYY.EmDee</code>
+        </div>
+
+        <div class="download__card" role="listitem">
+          <p class="download__card-os">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-.69 17.308c-.21.238-.496.37-.795.37s-.585-.132-.795-.37L6.23 12.8a1.1 1.1 0 0 1 0-1.495 1.069 1.069 0 0 1 1.536 0l3.749 4.23 7.049-9.835a1.069 1.069 0 0 1 1.526-.19 1.1 1.1 0 0 1 .19 1.527l-7.97 10.27z"/></svg>
+            Linux
+          </p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;">
+            <a
+              href="https://github.com/AYJAYY/emdee/releases/download/v0.2.1/EmDee_0.2.1_amd64.deb"
+              class="btn btn--primary"
+              aria-label="Download EmDee 0.2.1 .deb package for Debian/Ubuntu"
+            >
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              .deb Package
+            </a>
+            <a
+              href="https://github.com/AYJAYY/emdee/releases/download/v0.2.1/EmDee_0.2.1_amd64.AppImage"
+              class="btn btn--ghost"
+              aria-label="Download EmDee 0.2.1 AppImage for Linux"
+            >
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              .AppImage
+            </a>
+          </div>
+          <p class="download__card-note">Ubuntu / Debian / Fedora · x64</p>
+          <p class="download__card-note">.AppImage works on any distro — no install needed</p>
+        </div>
+
       </div>
     </section>
 

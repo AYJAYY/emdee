@@ -1,6 +1,26 @@
 # EmDee
 
-A beautiful, fast Markdown viewer for Windows. Built with Tauri + React + TypeScript.
+A beautiful, fast Markdown viewer for Windows & Linux. Built with Tauri + React + TypeScript.
+
+## Installation
+
+**Windows** — Download `EmDee_0.2.1_x64-setup.exe` from the [latest release](https://github.com/AYJAYY/emdee/releases/latest). Windows may show a SmartScreen prompt on first run — click **More info → Run anyway**.
+
+```
+winget install AYJAYY.EmDee
+```
+
+**Linux (Debian/Ubuntu)** — Download `EmDee_0.2.1_amd64.deb` from the [latest release](https://github.com/AYJAYY/emdee/releases/latest).
+
+```bash
+sudo dpkg -i EmDee_0.2.1_amd64.deb
+```
+
+**Linux (universal)** — Download `EmDee_0.2.1_amd64.AppImage` from the [latest release](https://github.com/AYJAYY/emdee/releases/latest).
+
+```bash
+chmod +x EmDee_0.2.1_amd64.AppImage && ./EmDee_0.2.1_amd64.AppImage
+```
 
 ## Features
 
