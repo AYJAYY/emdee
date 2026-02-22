@@ -1,17 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Toolbar } from "./components/Toolbar/Toolbar";
 import { MarkdownViewer } from "./components/MarkdownViewer/MarkdownViewer";
+import { TocPanel } from "./components/TocPanel/TocPanel";
 import { WelcomeScreen } from "./components/WelcomeScreen/WelcomeScreen";
 import { useAppStore } from "./store/appStore";
 import { openFileDialog } from "./adapters/dialog";
 import { useFile } from "./hooks/useFile";
+import { useMarkdown } from "./hooks/useMarkdown";
 import { exportAsHtml } from "./utils/htmlExport";
+import { announce } from "./utils/announce";
 import "./App.css";
 
 export default function App() {
-  const { theme, currentFile, error, setError, setTheme } = useAppStore();
+  const { theme, currentFile, currentContent, error, setError, setTheme, tocOpen, setTocOpen } = useAppStore();
   const { openFile } = useFile();
   const [findOpen, setFindOpen] = useState(false);
+  const articleRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const html = useMarkdown(currentContent);
 
   // Apply theme to html element
   useEffect(() => {
@@ -98,6 +104,16 @@ export default function App() {
           }
           break;
         }
+        case "\\": {
+          e.preventDefault();
+          const state = useAppStore.getState();
+          if (state.currentFile) {
+            const next = !state.tocOpen;
+            state.setTocOpen(next);
+            announce(next ? "Table of contents opened" : "Table of contents closed");
+          }
+          break;
+        }
       }
     };
 
@@ -131,6 +147,8 @@ export default function App() {
         <MarkdownViewer
           findOpen={findOpen}
           onCloseFindBar={() => setFindOpen(false)}
+          articleRef={articleRef}
+          contentRef={contentRef}
         />
       );
     }
@@ -146,8 +164,23 @@ export default function App() {
         aria-atomic="true"
         className="sr-only"
       />
-      <Toolbar />
+      <Toolbar
+        tocOpen={tocOpen}
+        onToggleToc={() => {
+          const next = !useAppStore.getState().tocOpen;
+          setTocOpen(next);
+          announce(next ? "Table of contents opened" : "Table of contents closed");
+        }}
+      />
       <main className="content-area" id="main-content">
+        {currentFile && (
+          <TocPanel
+            isOpen={tocOpen}
+            articleRef={articleRef}
+            contentRef={contentRef}
+            html={html}
+          />
+        )}
         {renderContent()}
       </main>
     </div>

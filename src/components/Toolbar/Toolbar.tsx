@@ -19,7 +19,12 @@ const themeLabels: Record<Theme, string> = {
   sepia: "Sepia",
 };
 
-export function Toolbar() {
+interface ToolbarProps {
+  tocOpen: boolean;
+  onToggleToc: () => void;
+}
+
+export function Toolbar({ tocOpen, onToggleToc }: ToolbarProps) {
   const { theme, setTheme, fontSize, setFontSize, currentFile, currentContent } =
     useAppStore();
   const { openFile } = useFile();
@@ -87,6 +92,23 @@ export function Toolbar() {
             <polyline points="14,2 14,8 20,8"/>
           </svg>
           Open
+        </button>
+        <button
+          className={`toolbar__btn${tocOpen ? " toolbar__btn--active" : ""}`}
+          onClick={onToggleToc}
+          type="button"
+          title="Toggle table of contents (Ctrl+\)"
+          aria-label="Toggle table of contents"
+          aria-pressed={tocOpen}
+          aria-controls="toc-panel"
+          disabled={!currentFile}
+        >
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="15" y2="12"/>
+            <line x1="3" y1="18" x2="18" y2="18"/>
+          </svg>
+          Contents
         </button>
       </div>
 

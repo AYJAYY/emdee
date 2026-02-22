@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useAppStore } from "../../store/appStore";
 import { useMarkdown } from "../../hooks/useMarkdown";
 import { FindBar } from "../FindBar/FindBar";
@@ -8,13 +8,13 @@ import "./MarkdownViewer.css";
 interface MarkdownViewerProps {
   findOpen: boolean;
   onCloseFindBar: () => void;
+  articleRef: React.RefObject<HTMLElement>;
+  contentRef: React.RefObject<HTMLDivElement>;
 }
 
-export function MarkdownViewer({ findOpen, onCloseFindBar }: MarkdownViewerProps) {
+export function MarkdownViewer({ findOpen, onCloseFindBar, articleRef, contentRef }: MarkdownViewerProps) {
   const { currentContent, fontSize } = useAppStore();
   const html = useMarkdown(currentContent);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const articleRef = useRef<HTMLElement>(null);
 
   // Scroll to top when content changes
   useEffect(() => {

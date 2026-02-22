@@ -75,6 +75,15 @@
   cursor: not-allowed;
 }
 
+.toolbar__btn--active {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.toolbar__btn--active:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 .toolbar__btn--export {
   background: var(--bg-hover);
   color: var(--text-secondary);

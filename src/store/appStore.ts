@@ -12,6 +12,7 @@ interface AppState {
   theme: Theme;
   fontSize: number;
   recentFiles: string[];
+  tocOpen: boolean;
 
   // Transient state
   isLoading: boolean;
@@ -26,6 +27,7 @@ interface AppState {
   setError: (error: string | null) => void;
   addRecentFile: (path: string) => void;
   clearRecentFiles: () => void;
+  setTocOpen: (open: boolean) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -36,6 +38,7 @@ export const useAppStore = create<AppState>()(
       theme: "light",
       fontSize: 17,
       recentFiles: [],
+      tocOpen: true,
       isLoading: false,
       error: null,
 
@@ -51,6 +54,7 @@ export const useAppStore = create<AppState>()(
           return { recentFiles: deduped.slice(0, 10) };
         }),
       clearRecentFiles: () => set({ recentFiles: [] }),
+      setTocOpen: (open) => set({ tocOpen: open }),
     }),
     {
       name: "emdee-settings",
@@ -59,6 +63,7 @@ export const useAppStore = create<AppState>()(
         theme: state.theme,
         fontSize: state.fontSize,
         recentFiles: state.recentFiles,
+        tocOpen: state.tocOpen,
       }),
     }
   )

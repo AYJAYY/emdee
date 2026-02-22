@@ -40,6 +40,7 @@ export function WelcomeScreen() {
         <ul className="welcome__tips" aria-label="Keyboard shortcuts">
           <li><kbd>Ctrl+O</kbd> Open file</li>
           <li><kbd>Ctrl+F</kbd> Find in document</li>
+          <li><kbd>Ctrl+\</kbd> Toggle contents</li>
           <li><kbd>Ctrl+P</kbd> Print / PDF</li>
           <li><kbd>Ctrl+E</kbd> Export HTML</li>
           <li><kbd>Ctrl+D</kbd> Toggle dark mode</li>
