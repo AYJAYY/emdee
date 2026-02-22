@@ -152,8 +152,28 @@
       font-size: clamp(1.1rem, 2.5vw, 1.45rem);
       color: var(--text-muted);
       max-width: 480px;
-      margin: 0 auto 2.75rem;
+      margin: 0 auto 1rem;
       line-height: 1.5;
+    }
+
+    .hero__subtitle {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: -1.75rem;
+      margin-bottom: 2.75rem;
+    }
+
+    .hero__subtitle code {
+      font-family: "Menlo", "Consolas", monospace;
+      font-size: 0.9em;
+      color: var(--purple-light);
+      background: rgba(93,63,211,0.15);
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      text-transform: none;
     }
 
     .hero__actions {
@@ -619,6 +639,7 @@
         <span class="hero__logo-em">Em</span><span class="hero__logo-dee">Dee</span>
       </h1>
       <p class="hero__tagline">Beautiful markdown, beautifully simple.</p>
+      <p class="hero__subtitle">A <code>.md</code> Markdown file viewer for Windows</p>
       <div class="hero__actions">
         <a
           href="https://github.com/AYJAYY/emdee/releases/download/v0.2.1/EmDee_0.2.1_x64-setup.exe"
