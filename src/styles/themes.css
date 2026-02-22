@@ -85,15 +85,15 @@
   --text-muted:    #705535;
   --text-code:     #e8d8b0;
   --text-code-inline:#8b3a0f;
-  --text-link:     #5D3FD3;
+  --text-link:     #7c4a00;
   --text-heading:  #2c1f0e;
 
   --border:        #d8cbb0;
   --border-strong: #c4b090;
-  --accent:        #5D3FD3;
-  --accent-light:  #ede8ff;
+  --accent:        #7c4a00;
+  --accent-light:  #f5e8cc;
 
-  --blockquote-border: #7c52c8;
+  --blockquote-border: #b07840;
   --shadow-sm:     0 1px 3px rgba(60,40,10,0.08);
   --shadow-md:     0 4px 12px rgba(60,40,10,0.12);
 }
