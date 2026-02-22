@@ -1,0 +1,25 @@
+PackageIdentifier: AYJAYY.EmDee
+PackageVersion: 0.2.0
+InstallerType: nullsoft
+InstallerLocale: en-US
+Platform:
+  - Windows.Desktop
+MinimumOSVersion: 10.0.0.0
+Architecture: x64
+Scope: user
+InstallModes:
+  - interactive
+  - silent
+UpgradeBehavior: install
+FileExtensions:
+  - md
+  - markdown
+Installers:
+  - Architecture: x64
+    InstallerUrl: https://github.com/AYJAYY/emdee/releases/download/v0.2.0/EmDee_0.2.0_x64-setup.exe
+    InstallerSha256: 9DA3F46E62F0DFB210853B430B4F08DFF3BC20A7E7461DEE2D67E090086EA7CA
+    InstallerSwitches:
+      Silent: /S
+      SilentWithProgress: /S
+ManifestType: installer
+ManifestVersion: 1.6.0

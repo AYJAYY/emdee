@@ -68,11 +68,11 @@
 .welcome__btn--primary {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 2px 8px rgba(93, 63, 211, 0.3);
 }
 .welcome__btn--primary:hover {
   background: color-mix(in srgb, var(--accent) 85%, black);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 4px 12px rgba(93, 63, 211, 0.4);
 }
 
 .welcome__btn--secondary {
