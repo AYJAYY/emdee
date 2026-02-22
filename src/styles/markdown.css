@@ -182,6 +182,14 @@
   accent-color: var(--accent);
 }
 
+/* ── Reduced motion ──────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .md-body .header-anchor,
+  .md-body a {
+    transition: none;
+  }
+}
+
 /* ── Highlight.js token colours (Catppuccin-inspired) ─────────── */
 .hljs-keyword      { color: #cba6f7; }
 .hljs-string       { color: #a6e3a1; }

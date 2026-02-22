@@ -11,6 +11,7 @@ interface AppState {
   // UI state (persisted)
   theme: Theme;
   fontSize: number;
+  recentFiles: string[];
 
   // Transient state
   isLoading: boolean;
@@ -23,6 +24,8 @@ interface AppState {
   setFontSize: (size: number) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
+  addRecentFile: (path: string) => void;
+  clearRecentFiles: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -32,6 +35,7 @@ export const useAppStore = create<AppState>()(
       currentContent: "",
       theme: "light",
       fontSize: 17,
+      recentFiles: [],
       isLoading: false,
       error: null,
 
@@ -41,6 +45,12 @@ export const useAppStore = create<AppState>()(
       setFontSize: (size) => set({ fontSize: size }),
       setLoading: (loading) => set({ isLoading: loading }),
       setError: (error) => set({ error }),
+      addRecentFile: (path) =>
+        set((state) => {
+          const deduped = [path, ...state.recentFiles.filter((p) => p !== path)];
+          return { recentFiles: deduped.slice(0, 10) };
+        }),
+      clearRecentFiles: () => set({ recentFiles: [] }),
     }),
     {
       name: "emdee-settings",
@@ -48,6 +58,7 @@ export const useAppStore = create<AppState>()(
       partialize: (state) => ({
         theme: state.theme,
         fontSize: state.fontSize,
+        recentFiles: state.recentFiles,
       }),
     }
   )

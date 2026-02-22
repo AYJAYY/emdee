@@ -114,3 +114,66 @@ kbd {
   color: var(--text-secondary);
   box-shadow: 0 1px 0 var(--border-strong);
 }
+
+/* Recently opened files */
+.welcome__recent-section {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.welcome__recent-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.5rem;
+}
+
+.welcome__recent {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+}
+
+.welcome__recent li button {
+  width: 100%;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.4em 0.75em;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s;
+}
+
+.welcome__recent li button:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+
+.welcome__recent li button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome__btn {
+    transition: none;
+  }
+  .welcome__btn:active {
+    transform: none;
+  }
+  .welcome__recent li button {
+    transition: none;
+  }
+}

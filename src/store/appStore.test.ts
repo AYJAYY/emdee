@@ -8,6 +8,7 @@ beforeEach(() => {
     currentContent: "",
     theme: "light",
     fontSize: 17,
+    recentFiles: [],
     isLoading: false,
     error: null,
   });
@@ -20,6 +21,7 @@ describe("appStore — initial state", () => {
     expect(state.currentContent).toBe("");
     expect(state.theme).toBe("light");
     expect(state.fontSize).toBe(17);
+    expect(state.recentFiles).toEqual([]);
     expect(state.isLoading).toBe(false);
     expect(state.error).toBeNull();
   });
@@ -57,20 +59,49 @@ describe("appStore — actions", () => {
   });
 });
 
+describe("appStore — recentFiles", () => {
+  it("addRecentFile prepends path to recentFiles", () => {
+    useAppStore.getState().addRecentFile("/a.md");
+    useAppStore.getState().addRecentFile("/b.md");
+    expect(useAppStore.getState().recentFiles).toEqual(["/b.md", "/a.md"]);
+  });
+
+  it("addRecentFile deduplicates — moves existing path to front", () => {
+    useAppStore.getState().addRecentFile("/a.md");
+    useAppStore.getState().addRecentFile("/b.md");
+    useAppStore.getState().addRecentFile("/a.md");
+    expect(useAppStore.getState().recentFiles).toEqual(["/a.md", "/b.md"]);
+  });
+
+  it("addRecentFile caps list at 10 entries", () => {
+    for (let i = 0; i < 12; i++) {
+      useAppStore.getState().addRecentFile(`/file${i}.md`);
+    }
+    expect(useAppStore.getState().recentFiles).toHaveLength(10);
+    // Most recent should be first
+    expect(useAppStore.getState().recentFiles[0]).toBe("/file11.md");
+  });
+
+  it("clearRecentFiles empties the list", () => {
+    useAppStore.getState().addRecentFile("/a.md");
+    useAppStore.getState().clearRecentFiles();
+    expect(useAppStore.getState().recentFiles).toEqual([]);
+  });
+});
+
 describe("appStore — persist partialize", () => {
-  it("only persists theme and fontSize", () => {
-    // Access the persist config via the store's internal api
+  it("persists theme, fontSize, and recentFiles", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const persistApi = (useAppStore as any).persist;
     const partialize = persistApi?.getOptions?.()?.partialize;
     if (!partialize) {
-      // If we can't reach partialize directly, verify via storage key contents
       const stored = JSON.parse(
         localStorage.getItem("emdee-settings") ?? "{}"
       );
       const stateKeys = Object.keys(stored.state ?? {});
       expect(stateKeys).toContain("theme");
       expect(stateKeys).toContain("fontSize");
+      expect(stateKeys).toContain("recentFiles");
       expect(stateKeys).not.toContain("currentFile");
       expect(stateKeys).not.toContain("currentContent");
       return;
@@ -80,10 +111,12 @@ describe("appStore — persist partialize", () => {
       currentContent: "# Hi",
       theme: "dark" as const,
       fontSize: 18,
+      recentFiles: ["/foo.md"],
       isLoading: false,
       error: null,
     });
-    expect(partial).toEqual({ theme: "dark", fontSize: 18 });
+    expect(partial).toEqual({ theme: "dark", fontSize: 18, recentFiles: ["/foo.md"] });
     expect(partial).not.toHaveProperty("currentFile");
+    expect(partial).not.toHaveProperty("currentContent");
   });
 });

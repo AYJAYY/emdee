@@ -2,7 +2,9 @@ import { useAppStore, type Theme } from "../../store/appStore";
 import { openFileDialog } from "../../adapters/dialog";
 import { useFile } from "../../hooks/useFile";
 import { useMarkdown } from "../../hooks/useMarkdown";
+import { useWordCount } from "../../hooks/useWordCount";
 import { exportAsHtml } from "../../utils/htmlExport";
+import { announce } from "../../utils/announce";
 import "./Toolbar.css";
 
 const themes: Theme[] = ["light", "dark", "sepia"];
@@ -22,6 +24,7 @@ export function Toolbar() {
     useAppStore();
   const { openFile } = useFile();
   const renderedHtml = useMarkdown(currentContent);
+  const wordStats = useWordCount(currentContent);
 
   async function handleOpenFile() {
     try {
@@ -47,7 +50,21 @@ export function Toolbar() {
 
   function cycleTheme() {
     const idx = themes.indexOf(theme);
-    setTheme(themes[(idx + 1) % themes.length]);
+    const next = themes[(idx + 1) % themes.length];
+    setTheme(next);
+    announce(`Theme: ${themeLabels[next]}`);
+  }
+
+  function handleDecreaseFontSize() {
+    const next = Math.max(12, fontSize - 1);
+    setFontSize(next);
+    announce(`Font size: ${next}px`);
+  }
+
+  function handleIncreaseFontSize() {
+    const next = Math.min(28, fontSize + 1);
+    setFontSize(next);
+    announce(`Font size: ${next}px`);
   }
 
   const fileLabel = currentFile
@@ -73,9 +90,19 @@ export function Toolbar() {
         </button>
       </div>
 
-      {/* Centre: file name */}
-      <div className="toolbar__title" aria-label="Current file">
-        {fileLabel}
+      {/* Centre: file name + word count */}
+      <div className="toolbar__center">
+        <div className="toolbar__title" aria-label="Current file">
+          {fileLabel}
+        </div>
+        {wordStats && (
+          <span
+            className="toolbar__meta"
+            aria-label={`${wordStats.words} words, ${wordStats.minutes} minute read`}
+          >
+            {wordStats.words.toLocaleString()} words · {wordStats.minutes} min read
+          </span>
+        )}
       </div>
 
       {/* Right group */}
@@ -83,7 +110,7 @@ export function Toolbar() {
         {/* Font size */}
         <button
           className="toolbar__btn"
-          onClick={() => setFontSize(Math.max(12, fontSize - 1))}
+          onClick={handleDecreaseFontSize}
           type="button"
           aria-label="Decrease font size"
           title="Decrease font size"
@@ -94,7 +121,7 @@ export function Toolbar() {
         <span className="toolbar__font-size" aria-label={`Font size ${fontSize}px`}>{fontSize}</span>
         <button
           className="toolbar__btn"
-          onClick={() => setFontSize(Math.min(28, fontSize + 1))}
+          onClick={handleIncreaseFontSize}
           type="button"
           aria-label="Increase font size"
           title="Increase font size"
@@ -103,7 +130,7 @@ export function Toolbar() {
           A<sup>+</sup>
         </button>
 
-        <div className="toolbar__divider" role="separator" />
+        <div className="toolbar__divider" aria-hidden="true" />
 
         {/* Theme toggle */}
         <button
@@ -117,7 +144,7 @@ export function Toolbar() {
           <span className="toolbar__theme-label">{themeLabels[theme]}</span>
         </button>
 
-        <div className="toolbar__divider" role="separator" />
+        <div className="toolbar__divider" aria-hidden="true" />
 
         {/* Export HTML */}
         <button

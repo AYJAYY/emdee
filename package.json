@@ -1,7 +1,7 @@
 {
   "name": "emdee",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -20,6 +20,7 @@
     "@tauri-apps/plugin-shell": "^2",
     "dompurify": "^3.3.1",
     "highlight.js": "^11.10.0",
+    "mark.js": "^8.11.1",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
     "react": "^18.3.1",
@@ -31,6 +32,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/dompurify": "^3.0.5",
+    "@types/mark.js": "^8.11.12",
     "@types/markdown-it": "^14.1.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",

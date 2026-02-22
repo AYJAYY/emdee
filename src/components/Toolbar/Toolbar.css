@@ -20,6 +20,16 @@
   min-width: 0;
 }
 
+.toolbar__center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 0 8px;
+}
+
 .toolbar__title {
   font-size: 0.82rem;
   font-weight: 500;
@@ -27,9 +37,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  flex: 1;
+  width: 100%;
   text-align: center;
-  padding: 0 8px;
 }
 
 /* Buttons */
@@ -117,4 +126,22 @@
   background: var(--border);
   margin: 0 4px;
   flex-shrink: 0;
+}
+
+.toolbar__meta {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-align: center;
+  display: block;
+  margin-top: 1px;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toolbar__btn {
+    transition: none;
+  }
+  .toolbar__btn:active {
+    transform: none;
+  }
 }

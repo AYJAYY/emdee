@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toolbar } from "./components/Toolbar/Toolbar";
 import { MarkdownViewer } from "./components/MarkdownViewer/MarkdownViewer";
 import { WelcomeScreen } from "./components/WelcomeScreen/WelcomeScreen";
@@ -9,13 +9,31 @@ import { exportAsHtml } from "./utils/htmlExport";
 import "./App.css";
 
 export default function App() {
-  const { theme, currentFile, error, setError } = useAppStore();
+  const { theme, currentFile, error, setError, setTheme } = useAppStore();
   const { openFile } = useFile();
+  const [findOpen, setFindOpen] = useState(false);
 
   // Apply theme to html element
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  // Auto-detect OS theme on first launch (no stored preference yet)
+  useEffect(() => {
+    const stored = localStorage.getItem("emdee-settings");
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (!stored) {
+      if (mq.matches) setTheme("dark");
+    }
+    const listener = (e: MediaQueryListEvent) => {
+      // Only auto-switch if the user hasn't saved a preference yet
+      if (!localStorage.getItem("emdee-settings")) {
+        setTheme(e.matches ? "dark" : "light");
+      }
+    };
+    mq.addEventListener("change", listener);
+    return () => mq.removeEventListener("change", listener);
+  }, [setTheme]);
 
   // Open file passed as CLI argument (e.g. double-clicked .md file on Windows)
   useEffect(() => {
@@ -46,6 +64,13 @@ export default function App() {
             if (path) openFile(path);
           } catch {
             // dialog dismissed or error — ignore
+          }
+          break;
+        }
+        case "f": {
+          e.preventDefault();
+          if (useAppStore.getState().currentFile) {
+            setFindOpen((prev) => !prev);
           }
           break;
         }
@@ -80,6 +105,11 @@ export default function App() {
     return () => window.removeEventListener("keydown", handler);
   }, [openFile]);
 
+  // Close find bar when file changes
+  useEffect(() => {
+    setFindOpen(false);
+  }, [currentFile]);
+
   function renderContent() {
     if (error) {
       return (
@@ -96,16 +126,30 @@ export default function App() {
         </div>
       );
     }
-    if (currentFile) return <MarkdownViewer />;
+    if (currentFile) {
+      return (
+        <MarkdownViewer
+          findOpen={findOpen}
+          onCloseFindBar={() => setFindOpen(false)}
+        />
+      );
+    }
     return <WelcomeScreen />;
   }
 
   return (
     <div className="app" data-theme={theme}>
+      {/* Screen reader live region for dynamic announcements */}
+      <div
+        id="sr-announcer"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      />
       <Toolbar />
-      <div className="content-area" role="presentation">
+      <main className="content-area" id="main-content">
         {renderContent()}
-      </div>
+      </main>
     </div>
   );
 }

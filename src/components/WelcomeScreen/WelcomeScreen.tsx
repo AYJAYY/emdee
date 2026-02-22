@@ -1,9 +1,11 @@
 import { openFileDialog } from "../../adapters/dialog";
 import { useFile } from "../../hooks/useFile";
+import { useAppStore } from "../../store/appStore";
 import "./WelcomeScreen.css";
 
 export function WelcomeScreen() {
   const { openFile } = useFile();
+  const recentFiles = useAppStore((s) => s.recentFiles);
 
   async function handleOpenFile() {
     const path = await openFileDialog();
@@ -11,7 +13,7 @@ export function WelcomeScreen() {
   }
 
   return (
-    <main className="welcome" role="main" aria-label="Welcome screen">
+    <div className="welcome" aria-label="Welcome screen">
       <div className="welcome__inner">
         <div className="welcome__logo" aria-hidden="true">
           <span className="welcome__logo-em">Em</span>
@@ -37,11 +39,27 @@ export function WelcomeScreen() {
 
         <ul className="welcome__tips" aria-label="Keyboard shortcuts">
           <li><kbd>Ctrl+O</kbd> Open file</li>
+          <li><kbd>Ctrl+F</kbd> Find in document</li>
           <li><kbd>Ctrl+P</kbd> Print / PDF</li>
           <li><kbd>Ctrl+E</kbd> Export HTML</li>
           <li><kbd>Ctrl+D</kbd> Toggle dark mode</li>
         </ul>
+
+        {recentFiles.length > 0 && (
+          <section aria-label="Recently opened files" className="welcome__recent-section">
+            <p className="welcome__recent-heading">Recent Files</p>
+            <ul className="welcome__recent">
+              {recentFiles.map((p) => (
+                <li key={p}>
+                  <button onClick={() => openFile(p)} title={p} type="button">
+                    {p.split(/[/\\]/).pop()}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
-    </main>
+    </div>
   );
 }

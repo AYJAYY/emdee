@@ -1,9 +1,22 @@
+.content-viewer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .content-scroll {
   flex: 1;
   overflow-y: auto;
   background: var(--bg-content);
   outline: none;
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-scroll {
+    scroll-behavior: auto;
+  }
 }
 
 .content-scroll:focus-visible {

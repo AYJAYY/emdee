@@ -1,13 +1,20 @@
 import { useEffect, useRef } from "react";
 import { useAppStore } from "../../store/appStore";
 import { useMarkdown } from "../../hooks/useMarkdown";
+import { FindBar } from "../FindBar/FindBar";
 import "../../styles/markdown.css";
 import "./MarkdownViewer.css";
 
-export function MarkdownViewer() {
+interface MarkdownViewerProps {
+  findOpen: boolean;
+  onCloseFindBar: () => void;
+}
+
+export function MarkdownViewer({ findOpen, onCloseFindBar }: MarkdownViewerProps) {
   const { currentContent, fontSize } = useAppStore();
   const html = useMarkdown(currentContent);
   const contentRef = useRef<HTMLDivElement>(null);
+  const articleRef = useRef<HTMLElement>(null);
 
   // Scroll to top when content changes
   useEffect(() => {
@@ -42,14 +49,25 @@ export function MarkdownViewer() {
   }, [html]);
 
   return (
-    <div className="content-scroll" ref={contentRef} tabIndex={0} aria-label="Document content">
-      <article
-        className="md-body"
-        style={{ "--md-font-size": `${fontSize}px` } as React.CSSProperties}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: html }}
-        aria-live="polite"
-      />
+    <div className="content-viewer">
+      {findOpen && (
+        <FindBar articleRef={articleRef} onClose={onCloseFindBar} />
+      )}
+      <div
+        id="content-scroll"
+        className="content-scroll"
+        ref={contentRef}
+        tabIndex={0}
+        aria-label="Document content"
+      >
+        <article
+          ref={articleRef}
+          className="md-body"
+          style={{ "--md-font-size": `${fontSize}px` } as React.CSSProperties}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      </div>
     </div>
   );
 }
