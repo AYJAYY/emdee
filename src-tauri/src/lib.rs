@@ -19,6 +19,13 @@ fn get_initial_file(state: tauri::State<'_, InitialFile>) -> Option<String> {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Fix white screen on Linux: disable WebKit GPU compositing and DMA-buf renderer
+    #[cfg(target_os = "linux")]
+    {
+        std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
+        std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
+    }
+
     // Capture file path from CLI args — set when user double-clicks a .md file
     let initial_file = std::env::args()
         .nth(1)
