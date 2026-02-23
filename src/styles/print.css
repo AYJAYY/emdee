@@ -63,7 +63,7 @@
   /* Reset inline code */
   .md-body code:not([class]) {
     background: #f0f0f0 !important;
-    color: #c0392b !important;
+    color: #5D3FD3 !important;
     border: 1px solid #ddd;
   }
 
