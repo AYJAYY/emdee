@@ -5,7 +5,10 @@
   line-height: 1.78;
   color: var(--text-primary);
   width: 100%;
-  padding: 40px clamp(24px, 4vw, 80px) 80px;
+  padding: 40px clamp(24px, 4vw, 80px);
+  /* Large bottom padding ensures every heading — even the last one — can
+     scroll past the TOC activation threshold (120px from container top). */
+  padding-bottom: max(80px, calc(100vh - 120px));
   word-break: break-word;
 }
 
