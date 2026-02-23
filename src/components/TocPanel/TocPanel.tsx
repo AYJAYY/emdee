@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useToc } from "../../hooks/useToc";
 import "./TocPanel.css";
 
@@ -10,6 +11,14 @@ interface TocPanelProps {
 
 export function TocPanel({ isOpen, articleRef, contentRef, html }: TocPanelProps) {
   const { entries, activeId } = useToc(articleRef, contentRef, html);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  // Keep the active TOC entry scrolled into view as the document scrolls
+  useEffect(() => {
+    if (!activeId || !listRef.current) return;
+    const active = listRef.current.querySelector<HTMLElement>("[aria-current='location']");
+    active?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [activeId]);
 
   function handleEntryClick(element: HTMLElement) {
     const container = contentRef.current;
@@ -42,7 +51,7 @@ export function TocPanel({ isOpen, articleRef, contentRef, html }: TocPanelProps
       {entries.length === 0 ? (
         <p className="toc-panel__empty">No headings found</p>
       ) : (
-        <ul className="toc-panel__list" role="list">
+        <ul className="toc-panel__list" role="list" ref={listRef}>
           {entries.map(({ id, text, level, element }) => (
             <li key={id}>
               <button
