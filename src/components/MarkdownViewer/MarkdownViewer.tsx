@@ -58,6 +58,7 @@ export function MarkdownViewer({ findOpen, onCloseFindBar, articleRef, contentRe
         className="content-scroll"
         ref={contentRef}
         tabIndex={0}
+        role="region"
         aria-label="Document content"
       >
         <article

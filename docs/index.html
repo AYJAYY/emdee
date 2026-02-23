@@ -634,6 +634,37 @@
       .nav__links { display: none; }
       .themes__swatches { gap: 1rem; }
       .swatch { width: 140px; }
+
+      /* Mock window — mobile */
+      .window-wrap {
+        padding: 0 clamp(0.75rem, 4vw, 1.5rem) clamp(2rem, 6vw, 4rem);
+      }
+
+      .window__toolbar {
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        gap: 4px;
+        padding: 0 10px;
+      }
+      .window__toolbar::-webkit-scrollbar { display: none; }
+
+      /* Hide lower-priority toolbar items on very small screens */
+      .window__meta,
+      .window__tbtn:nth-child(4),
+      .window__tbtn:nth-child(5),
+      .window__tbtn:nth-child(6) {
+        display: none;
+      }
+
+      .window__body {
+        padding: 20px 16px 24px;
+        font-size: 13px;
+      }
+
+      .md-h1 { font-size: 1.35em; }
+      .md-h2 { font-size: 1.1em; }
     }
 
     @media (prefers-reduced-motion: reduce) {

@@ -64,11 +64,14 @@
 /* ── Links ───────────────────────────────────────────────────── */
 .md-body a {
   color: var(--text-link);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--text-link) 45%, transparent);
+  transition: text-decoration-color 0.15s;
 }
-.md-body a:hover { border-bottom-color: var(--text-link); }
+.md-body a:hover {
+  text-decoration-color: var(--text-link);
+}
 .md-body a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -187,13 +190,14 @@
   .md-body .header-anchor,
   .md-body a {
     transition: none;
+    text-decoration-color: var(--text-link);
   }
 }
 
 /* ── Highlight.js token colours (Catppuccin-inspired) ─────────── */
 .hljs-keyword      { color: #cba6f7; }
 .hljs-string       { color: #a6e3a1; }
-.hljs-comment      { color: #6c7086; font-style: italic; }
+.hljs-comment      { color: #888ca0; font-style: italic; }
 .hljs-number       { color: #fab387; }
 .hljs-literal      { color: #fab387; }
 .hljs-built_in     { color: #89dceb; }

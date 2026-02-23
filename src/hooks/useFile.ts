@@ -17,6 +17,7 @@ export function useFile() {
         setCurrentFile(path);
         addRecentFile(path);
         const filename = path.split(/[/\\]/).pop() ?? path;
+        document.title = `${filename} — EmDee`;
         announce(`Opened: ${filename}`);
         // Move focus to content area so keyboard users can start reading immediately
         requestAnimationFrame(() => {
@@ -24,6 +25,7 @@ export function useFile() {
         });
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e);
+        document.title = "EmDee";
         setError(`Could not read file: ${msg}`);
       } finally {
         setLoading(false);

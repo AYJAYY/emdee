@@ -49,7 +49,7 @@ export function TocPanel({ isOpen, articleRef, contentRef, html }: TocPanelProps
                 className={`toc-panel__entry${activeId === id ? " toc-panel__entry--active" : ""}`}
                 style={{ paddingLeft: `${14 + (level - 1) * 12}px` }}
                 onClick={() => handleEntryClick(element)}
-                aria-current={activeId === id ? "true" : undefined}
+                aria-current={activeId === id ? "location" : undefined}
                 type="button"
                 tabIndex={isOpen ? 0 : -1}
               >
