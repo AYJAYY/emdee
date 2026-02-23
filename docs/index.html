@@ -228,6 +228,18 @@
       color: var(--text-muted);
     }
 
+    .hero__downloads {
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      min-height: 1.2em;
+    }
+
+    .hero__downloads strong {
+      color: var(--purple-light);
+      font-weight: 700;
+    }
+
     /* ── Mock window ──────────────────────────────────────────── */
     .window-wrap {
       padding: 0 clamp(1rem, 6vw, 6rem) clamp(3rem, 8vw, 6rem);
@@ -733,6 +745,9 @@
         </a>
       </div>
       <p class="hero__note">Free &amp; open source · Windows 10/11 &amp; Linux · 5 MB</p>
+      <p class="hero__downloads" aria-live="polite">
+        <span id="dl-count" aria-label="Total downloads loading"></span>
+      </p>
     </section>
 
     <!-- Mock app window -->
@@ -956,5 +971,26 @@
     </ul>
   </footer>
 
+  <script>
+    (async () => {
+      const el = document.getElementById('dl-count');
+      if (!el) return;
+      try {
+        const res = await fetch('https://api.github.com/repos/AYJAYY/emdee/releases', {
+          headers: { Accept: 'application/vnd.github+json' }
+        });
+        if (!res.ok) return;
+        const releases = await res.json();
+        const total = releases.reduce((sum, r) =>
+          sum + r.assets.reduce((s, a) => s + a.download_count, 0), 0);
+        if (total > 0) {
+          el.innerHTML = `<strong>${total.toLocaleString()}</strong> downloads and counting`;
+          el.setAttribute('aria-label', `${total.toLocaleString()} total downloads`);
+        }
+      } catch {
+        // silently ignore — network or rate limit
+      }
+    })();
+  </script>
 </body>
 </html>
