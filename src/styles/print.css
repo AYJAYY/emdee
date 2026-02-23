@@ -2,14 +2,15 @@
 @media print {
   /* Hide chrome */
   .toolbar,
-  .sidebar,
-  .sidebar-toggle {
+  .toc-panel,
+  .find-bar {
     display: none !important;
   }
 
-  /* Full-width content */
-  .layout,
-  .content-area {
+  /* Full-width layout reset */
+  .app,
+  .content-area,
+  .content-viewer {
     display: block !important;
     width: 100% !important;
     height: auto !important;
