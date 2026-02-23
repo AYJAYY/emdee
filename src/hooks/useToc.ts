@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface TocEntry {
   id: string;
@@ -14,7 +14,6 @@ export function useToc(
 ): { entries: TocEntry[]; activeId: string } {
   const [entries, setEntries] = useState<TocEntry[]>([]);
   const [activeId, setActiveId] = useState("");
-  const observerRef = useRef<IntersectionObserver | null>(null);
 
   // Extract headings from rendered article when html changes
   useEffect(() => {
@@ -42,34 +41,29 @@ export function useToc(
     return () => cancelAnimationFrame(frame);
   }, [html, articleRef]);
 
-  // Observe headings for active tracking
+  // Track active heading by scroll position
   useEffect(() => {
     const scrollRoot = contentRef.current;
     if (!scrollRoot || entries.length === 0) return;
 
-    observerRef.current?.disconnect();
+    function update() {
+      // Threshold: 120px below the top of the scroll container.
+      // A heading is "active" once it has scrolled past this point.
+      const threshold = scrollRoot!.getBoundingClientRect().top + 120;
 
-    const observer = new IntersectionObserver(
-      (records) => {
-        // Find the topmost intersecting heading
-        const visible = records
-          .filter((r) => r.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-
-        if (visible.length > 0) {
-          setActiveId(visible[0].target.id);
+      let active = entries[0];
+      for (const entry of entries) {
+        if (entry.element.getBoundingClientRect().top <= threshold) {
+          active = entry;
         }
-      },
-      {
-        root: scrollRoot,
-        rootMargin: "-10% 0px -80% 0px",
       }
-    );
+      setActiveId(active.id);
+    }
 
-    entries.forEach(({ element }) => observer.observe(element));
-    observerRef.current = observer;
+    scrollRoot.addEventListener("scroll", update, { passive: true });
+    update(); // set correct entry on mount / file change
 
-    return () => observer.disconnect();
+    return () => scrollRoot.removeEventListener("scroll", update);
   }, [entries, contentRef]);
 
   return { entries, activeId };
