@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
+import taskLists from "markdown-it-task-lists";
 import hljs from "highlight.js";
 import DOMPurify from "dompurify";
 import { convertFileSrc } from "@tauri-apps/api/core";
@@ -38,35 +39,98 @@ function resolvePath(dir: string, rel: string): string {
   return dir.replace(/\\/g, "/").replace(/\/?$/, "/") + rel;
 }
 
-const md: MarkdownIt = new MarkdownIt({
-  html: true,
-  linkify: true,
-  typographer: true,
-  highlight: highlightCode,
-});
+/**
+ * Apply standard plugins and security hardening to a MarkdownIt instance.
+ * Centralised here so both the base instance and the lazy KaTeX instance
+ * share identical behaviour.
+ */
+function configureInstance(instance: MarkdownIt): MarkdownIt {
+  // GFM: heading anchors
+  instance.use(anchor, {
+    permalink: anchor.permalink.linkInsideHeader({
+      symbol: "#",
+      placement: "after",
+    }),
+  });
 
-md.use(anchor, {
-  permalink: anchor.permalink.linkInsideHeader({
-    symbol: "#",
-    placement: "after",
-  }),
-});
+  // GFM: task lists — parser-level, handles `[ ]` / `[x]` / `[X]`
+  instance.use(taskLists, { enabled: false });
+
+  // Security: add rel="noopener noreferrer" + target="_blank" to all
+  // external links to prevent tab-napping and opener access.
+  const defaultLinkOpen =
+    instance.renderer.rules.link_open ??
+    ((tokens, idx, options, _env, self) =>
+      self.renderToken(tokens, idx, options));
+
+  instance.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+    const href = tokens[idx].attrGet("href") ?? "";
+    if (/^https?:\/\//i.test(href)) {
+      tokens[idx].attrSet("target", "_blank");
+      tokens[idx].attrSet("rel", "noopener noreferrer");
+    }
+    return defaultLinkOpen(tokens, idx, options, env, self);
+  };
+
+  return instance;
+}
+
+const md: MarkdownIt = configureInstance(
+  new MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
+    highlight: highlightCode,
+  })
+);
+
+// Lazy KaTeX-enabled md instance — created once on first use
+let mdKatex: MarkdownIt | null = null;
+let mdKatexLoading: Promise<MarkdownIt> | null = null;
+
+async function loadKatex(): Promise<MarkdownIt> {
+  if (mdKatex) return mdKatex;
+  if (mdKatexLoading) return mdKatexLoading;
+
+  mdKatexLoading = import("@traptitech/markdown-it-katex").then(
+    ({ default: markdownItKatex }) => {
+      const instance = configureInstance(
+        new MarkdownIt({
+          html: true,
+          linkify: true,
+          typographer: true,
+          highlight: highlightCode,
+        })
+      );
+      instance.use(markdownItKatex, { throwOnError: false });
+      mdKatex = instance;
+      return instance;
+    }
+  );
+  return mdKatexLoading;
+}
+
+function hasMath(content: string): boolean {
+  return content.includes("$");
+}
 
 export function useMarkdown(content: string, filePath?: string | null): string {
+  const [mathReady, setMathReady] = useState(false);
+
+  // Lazy-load KaTeX when the file contains math notation
+  useEffect(() => {
+    if (!hasMath(content) || mathReady) return;
+    loadKatex().then(() => setMathReady(true));
+  }, [content, mathReady]);
+
   return useMemo(() => {
     if (!content) return "";
+    const renderer = mathReady && mdKatex ? mdKatex : md;
     let raw: string;
     try {
       // Strip YAML front matter (Jekyll, Hugo, Obsidian, GitHub wiki)
       const stripped = content.replace(/^---[\r\n][\s\S]*?[\r\n]---[\r\n]?/, "");
-      raw = md.render(stripped);
-
-      // Task list post-processing (no extra npm package)
-      raw = raw
-        .replace(/<li>\s*\[x\]\s*/gi,
-          '<li class="task-list-item"><input type="checkbox" checked disabled aria-label="Completed task"> ')
-        .replace(/<li>\s*\[ \]\s*/gi,
-          '<li class="task-list-item"><input type="checkbox" disabled aria-label="Incomplete task"> ');
+      raw = renderer.render(stripped);
 
       // Wrap wide tables in a scrollable container
       raw = raw.replace(/<table>/g, '<div class="table-wrapper"><table>')
@@ -85,11 +149,19 @@ export function useMarkdown(content: string, filePath?: string | null): string {
     } catch {
       return `<pre style="white-space:pre-wrap;word-break:break-word">${escapeHtml(content)}</pre>`;
     }
+
+    // Security: sanitize all HTML to block XSS.
+    // markdown-it's html:true passes raw HTML from the source file through —
+    // DOMPurify strips <script>, event handlers, javascript: URLs, and other
+    // attack vectors while preserving the safe markup needed for rendering.
     return DOMPurify.sanitize(raw, {
-      // Allow id/class for heading anchors and syntax highlighting,
-      // title for <abbr>, checked+disabled for task list checkboxes
-      ADD_ATTR: ["id", "class", "href", "target", "title", "checked", "disabled"],
+      // id/class: heading anchors, hljs, task-list-item, katex-*
+      // href/target/rel: links (rel set by our renderer for external links)
+      // title: <abbr> tooltips
+      // checked/disabled: task-list checkboxes
+      // style: KaTeX uses inline styles for glyph sizing and spacing
+      ADD_ATTR: ["id", "class", "href", "target", "rel", "title", "checked", "disabled", "style"],
       ADD_TAGS: ["details", "summary", "kbd"],
     });
-  }, [content, filePath]);
+  }, [content, filePath, mathReady]);
 }

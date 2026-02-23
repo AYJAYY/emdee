@@ -5,6 +5,7 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/jetbrains-mono";
 import "./styles/themes.css";
 import "./styles/print.css";
+import "katex/dist/katex.min.css";
 import App from "./App";
 
 const root = document.getElementById("root");

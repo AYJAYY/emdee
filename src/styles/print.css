@@ -108,6 +108,11 @@
     color: #555 !important;
   }
 
+  /* KaTeX math: ensure block equations are visible */
+  .md-body .katex-display {
+    overflow: visible !important;
+  }
+
   @page {
     margin: 2cm;
   }
