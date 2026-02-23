@@ -17,7 +17,7 @@ export default function App() {
   const [findOpen, setFindOpen] = useState(false);
   const articleRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const html = useMarkdown(currentContent);
+  const html = useMarkdown(currentContent, currentFile);
 
   // Apply theme to html element
   useEffect(() => {

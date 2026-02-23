@@ -13,8 +13,8 @@ interface MarkdownViewerProps {
 }
 
 export function MarkdownViewer({ findOpen, onCloseFindBar, articleRef, contentRef }: MarkdownViewerProps) {
-  const { currentContent, fontSize } = useAppStore();
-  const html = useMarkdown(currentContent);
+  const { currentContent, fontSize, currentFile } = useAppStore();
+  const html = useMarkdown(currentContent, currentFile);
 
   // Scroll to top when content changes
   useEffect(() => {

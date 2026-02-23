@@ -91,6 +91,22 @@
     page-break-inside: avoid;
   }
 
+  /* Force <details> open in print */
+  .md-body details > :not(summary) { display: block !important; }
+  .md-body summary::before { content: "" !important; }
+
+  /* Mark legible in print (no color, use italic) */
+  .md-body mark {
+    background: none !important;
+    font-style: italic;
+  }
+
+  /* Del visible in print */
+  .md-body del,
+  .md-body s {
+    color: #555 !important;
+  }
+
   @page {
     margin: 2cm;
   }

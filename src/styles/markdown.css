@@ -184,6 +184,113 @@
   margin-right: 0.4em;
   accent-color: var(--accent);
 }
+.md-body .task-list-item {
+  list-style: none;
+  margin-left: -1.25em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+}
+.md-body .task-list-item input[type="checkbox"] {
+  flex-shrink: 0;
+  margin: 0;
+  accent-color: var(--accent);
+  pointer-events: none;
+}
+
+/* ── Wide table wrapper ──────────────────────────────────────── */
+.md-body .table-wrapper {
+  overflow-x: auto;
+  margin: 1.4em 0;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.md-body .table-wrapper table {
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* ── Semantic inline elements ────────────────────────────────── */
+
+/* Strikethrough / deletion */
+.md-body del,
+.md-body s {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: currentColor;
+}
+
+/* Insertion */
+.md-body ins {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--text-link);
+}
+
+/* Highlighted text */
+.md-body mark {
+  background: color-mix(in srgb, #f9e2af 60%, transparent);
+  color: var(--text-primary);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Superscript / subscript */
+.md-body sup,
+.md-body sub {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+.md-body sup { top: -0.5em; }
+.md-body sub { bottom: -0.25em; }
+
+/* Abbreviations */
+.md-body abbr[title] {
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: help;
+}
+
+/* Details / Summary */
+.md-body details {
+  margin: 1.2em 0;
+  padding: 0.6em 1em;
+  background: var(--bg-blockquote);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.md-body summary {
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-primary);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.md-body summary::before {
+  content: "▶";
+  font-size: 0.65em;
+  color: var(--text-muted);
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.md-body details[open] summary::before {
+  transform: rotate(90deg);
+}
+.md-body details > :not(summary):first-of-type {
+  margin-top: 0.75em;
+}
+.md-body summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 
 /* ── Reduced motion ──────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
@@ -192,6 +299,7 @@
     transition: none;
     text-decoration-color: var(--text-link);
   }
+  .md-body summary::before { transition: none; }
 }
 
 /* ── Highlight.js token colours (Catppuccin-inspired) ─────────── */

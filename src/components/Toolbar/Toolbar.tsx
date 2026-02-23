@@ -28,7 +28,7 @@ export function Toolbar({ tocOpen, onToggleToc }: ToolbarProps) {
   const { theme, setTheme, fontSize, setFontSize, currentFile, currentContent } =
     useAppStore();
   const { openFile } = useFile();
-  const renderedHtml = useMarkdown(currentContent);
+  const renderedHtml = useMarkdown(currentContent, currentFile);
   const wordStats = useWordCount(currentContent);
 
   async function handleOpenFile() {
