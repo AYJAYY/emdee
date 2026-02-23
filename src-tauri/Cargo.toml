@@ -1,6 +1,6 @@
 [package]
 name = "emdee"
-version = "0.3.0"
+version = "0.3.1"
 description = "EmDee — Beautiful Markdown Viewer"
 authors = []
 license = "MIT"

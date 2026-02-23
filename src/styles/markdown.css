@@ -5,7 +5,10 @@
   line-height: 1.78;
   color: var(--text-primary);
   width: 100%;
-  padding: 40px clamp(24px, 4vw, 80px) 80px;
+  padding: 40px clamp(24px, 4vw, 80px);
+  /* Large bottom padding ensures every heading — even the last one — can
+     scroll past the TOC activation threshold (120px from container top). */
+  padding-bottom: max(80px, calc(100vh - 120px));
   word-break: break-word;
 }
 
@@ -180,16 +183,18 @@
 }
 
 /* ── Task lists (GFM) ────────────────────────────────────────── */
-.md-body input[type="checkbox"] {
-  margin-right: 0.4em;
-  accent-color: var(--accent);
+/* .contains-task-list is set by the markdown-it-task-lists plugin on the
+   parent <ul>; suppress the default left padding since task items handle
+   their own indentation via margin-left on .task-list-item. */
+.md-body .contains-task-list {
+  padding-left: 0.25em;
 }
 .md-body .task-list-item {
   list-style: none;
-  margin-left: -1.25em;
+  margin-left: 0;
   display: flex;
   align-items: baseline;
-  gap: 0.4em;
+  gap: 0.5em;
 }
 .md-body .task-list-item input[type="checkbox"] {
   flex-shrink: 0;
@@ -290,6 +295,20 @@
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+/* ── KaTeX math ───────────────────────────────────────────────── */
+/* Block math: centred with breathing room */
+.md-body .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 1.4em 0;
+  text-align: center;
+}
+
+/* Inline math: keep on baseline */
+.md-body .katex {
+  font-size: 1.05em;
 }
 
 /* ── Reduced motion ──────────────────────────────────────────── */
