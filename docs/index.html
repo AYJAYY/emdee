@@ -976,13 +976,12 @@
       const el = document.getElementById('dl-count');
       if (!el) return;
       try {
-        const res = await fetch('https://api.github.com/repos/AYJAYY/emdee/releases', {
+        const res = await fetch('https://api.github.com/repos/AYJAYY/emdee/releases/tags/v0.2.1', {
           headers: { Accept: 'application/vnd.github+json' }
         });
         if (!res.ok) return;
-        const releases = await res.json();
-        const total = releases.reduce((sum, r) =>
-          sum + r.assets.reduce((s, a) => s + a.download_count, 0), 0);
+        const release = await res.json();
+        const total = release.assets.reduce((sum, a) => sum + a.download_count, 0);
         if (total > 0) {
           el.innerHTML = `<strong>${total.toLocaleString()}</strong> downloads and counting`;
           el.setAttribute('aria-label', `${total.toLocaleString()} total downloads`);
