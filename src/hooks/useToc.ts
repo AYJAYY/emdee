@@ -47,14 +47,26 @@ export function useToc(
     if (!scrollRoot || entries.length === 0) return;
 
     function update() {
-      // Threshold: 120px below the top of the scroll container.
-      // A heading is "active" once it has scrolled past this point.
-      const threshold = scrollRoot!.getBoundingClientRect().top + 120;
+      const root = scrollRoot!;
+      const rootRect = root.getBoundingClientRect();
+      const threshold = rootRect.top + 120;
+
+      // At the bottom of the document, headings in short final sections can
+      // never cross the threshold — activate the last heading visible instead.
+      const atBottom = root.scrollTop + root.clientHeight >= root.scrollHeight - 4;
 
       let active = entries[0];
-      for (const entry of entries) {
-        if (entry.element.getBoundingClientRect().top <= threshold) {
-          active = entry;
+      if (atBottom) {
+        for (const entry of entries) {
+          if (entry.element.getBoundingClientRect().top < rootRect.bottom) {
+            active = entry;
+          }
+        }
+      } else {
+        for (const entry of entries) {
+          if (entry.element.getBoundingClientRect().top <= threshold) {
+            active = entry;
+          }
         }
       }
       setActiveId(active.id);
