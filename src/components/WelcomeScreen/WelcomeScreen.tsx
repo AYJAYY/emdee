@@ -50,7 +50,7 @@ export function WelcomeScreen() {
           <section aria-label="Recently opened files" className="welcome__recent-section">
             <p className="welcome__recent-heading">Recent Files</p>
             <ul className="welcome__recent">
-              {recentFiles.map((p) => (
+              {recentFiles.slice(0, 5).map((p) => (
                 <li key={p}>
                   <button onClick={() => openFile(p)} title={p} type="button">
                     {p.split(/[/\\]/).pop()}
