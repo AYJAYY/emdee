@@ -35,6 +35,16 @@
   flex: 1;
 }
 
+.toc-panel__list::-webkit-scrollbar { width: 8px; }
+.toc-panel__list::-webkit-scrollbar-track { background: transparent; }
+.toc-panel__list::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+.toc-panel__list::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
 .toc-panel__entry {
   display: block;
   width: 100%;
