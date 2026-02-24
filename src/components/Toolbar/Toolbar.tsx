@@ -1,4 +1,3 @@
-import { useRef, useState, useEffect } from "react";
 import { useAppStore, type Theme } from "../../store/appStore";
 import { openFileDialog } from "../../adapters/dialog";
 import { useFile } from "../../hooks/useFile";
@@ -31,28 +30,6 @@ export function Toolbar({ tocOpen, onToggleToc }: ToolbarProps) {
   const { openFile } = useFile();
   const renderedHtml = useMarkdown(currentContent, currentFile);
   const wordStats = useWordCount(currentContent);
-  const [overflowOpen, setOverflowOpen] = useState(false);
-  const overflowRef = useRef<HTMLDivElement>(null);
-
-  // Close overflow menu on outside click / Escape
-  useEffect(() => {
-    if (!overflowOpen) return;
-    function onPointerDown(e: PointerEvent) {
-      if (overflowRef.current && !overflowRef.current.contains(e.target as Node)) {
-        setOverflowOpen(false);
-      }
-    }
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOverflowOpen(false);
-    }
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [overflowOpen]);
-
   async function handleOpenFile() {
     try {
       const path = await openFileDialog();
@@ -73,7 +50,6 @@ export function Toolbar({ tocOpen, onToggleToc }: ToolbarProps) {
     } catch {
       // export error — ignore silently
     }
-    setOverflowOpen(false);
   }
 
   function cycleTheme() {
@@ -233,48 +209,6 @@ export function Toolbar({ tocOpen, onToggleToc }: ToolbarProps) {
           Print / PDF
         </button>
 
-        {/* Overflow menu — visible only on narrow screens */}
-        <div className="toolbar__overflow" ref={overflowRef}>
-          <button
-            className="toolbar__btn toolbar__overflow-trigger"
-            onClick={() => setOverflowOpen((v) => !v)}
-            type="button"
-            aria-label="More options"
-            title="More options"
-            aria-expanded={overflowOpen}
-            aria-haspopup="menu"
-          >
-            ⋮
-          </button>
-          {overflowOpen && (
-            <div className="toolbar__overflow-menu" role="menu">
-              {/* Font size row */}
-              <div className="toolbar__overflow-font" role="group" aria-label="Font size">
-                <button
-                  className="toolbar__btn"
-                  onClick={handleDecreaseFontSize}
-                  type="button"
-                  aria-label="Decrease font size"
-                  disabled={fontSize <= 12}
-                  role="menuitem"
-                >
-                  A<sup>−</sup>
-                </button>
-                <span className="toolbar__font-size" aria-label={`Font size ${fontSize}px`}>{fontSize}</span>
-                <button
-                  className="toolbar__btn"
-                  onClick={handleIncreaseFontSize}
-                  type="button"
-                  aria-label="Increase font size"
-                  disabled={fontSize >= 28}
-                  role="menuitem"
-                >
-                  A<sup>+</sup>
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
       </div>
     </header>
   );
