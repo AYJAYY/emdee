@@ -166,6 +166,12 @@ kbd {
   outline-offset: 2px;
 }
 
+@media (max-width: 640px) {
+  .welcome__tips {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .welcome__btn {
     transition: none;

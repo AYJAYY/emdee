@@ -1,5 +1,6 @@
 .toolbar {
   height: var(--toolbar-height);
+  position: relative;
   background: var(--bg-toolbar);
   border-bottom: 1px solid var(--border);
   display: flex;
@@ -198,7 +199,20 @@
 @media (max-width: 640px) {
   /* Taller toolbar on mobile for easier tapping */
   .toolbar {
-    height: 56px;
+    height: calc(56px + env(safe-area-inset-top));
+    padding-top: env(safe-area-inset-top);
+  }
+
+  /* Fixed purple strip behind the Android status bar — never changes with theme */
+  .toolbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: env(safe-area-inset-top);
+    background: #5D3FD3;
+    z-index: 1;
   }
 
   /* Hide inline font controls and HTML export button */
