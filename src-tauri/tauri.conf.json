@@ -43,7 +43,15 @@
         "description": "Markdown Document",
         "mimeType": "text/markdown"
       }
-    ]
+    ],
+    "resources": {
+      "icons/fileicon.ico": "fileicon.ico"
+    },
+    "windows": {
+      "nsis": {
+        "installerHooks": "nsis/installer-hooks.nsh"
+      }
+    }
   },
   "plugins": {
     "shell": {
