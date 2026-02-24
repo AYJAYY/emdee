@@ -136,14 +136,17 @@ export function useMarkdown(content: string, filePath?: string | null): string {
       raw = raw.replace(/<table>/g, '<div class="table-wrapper"><table>')
                .replace(/<\/table>/g, '</table></div>');
 
-      // Resolve relative image paths in Tauri context
-      if (filePath && isTauri()) {
+      // Resolve relative image paths to platform-accessible URLs
+      if (filePath && (isTauri() || isCapacitor())) {
         const dir = filePath.replace(/\\/g, "/").replace(/\/[^/]*$/, "");
         raw = raw.replace(/<img([^>]*)\ssrc="([^"]+)"([^>]*)>/gi, (match, before, src, after) => {
           if (/^(https?:|data:|#)/i.test(src)) return match;
           const resolved = resolvePath(dir, src);
-          const tauriSrc = convertFileSrc(resolved);
-          return `<img${before} src="${tauriSrc}"${after}>`;
+          const localSrc = isTauri()
+            ? convertFileSrc(resolved)
+            : window.Capacitor?.convertFileSrc?.(resolved) ?? null;
+          if (!localSrc) return match;
+          return `<img${before} src="${localSrc}"${after}>`;
         });
       }
     } catch {
@@ -162,6 +165,10 @@ export function useMarkdown(content: string, filePath?: string | null): string {
       // style: KaTeX uses inline styles for glyph sizing and spacing
       ADD_ATTR: ["id", "class", "href", "target", "rel", "title", "checked", "disabled", "style"],
       ADD_TAGS: ["details", "summary", "kbd"],
+      // Allow asset:// (Tauri local file protocol) and http://localhost
+      // (Capacitor local file protocol) in addition to the defaults.
+      ALLOWED_URI_REGEXP:
+        /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|asset):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
     });
   }, [content, filePath, mathReady]);
 }

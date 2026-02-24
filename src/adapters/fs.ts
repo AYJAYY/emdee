@@ -7,7 +7,10 @@
 declare global {
   interface Window {
     __TAURI_INTERNALS__?: unknown;
-    Capacitor?: { isNativePlatform?: () => boolean };
+    Capacitor?: {
+      isNativePlatform?: () => boolean;
+      convertFileSrc?: (path: string) => string;
+    };
   }
 }
 

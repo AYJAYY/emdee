@@ -1,21 +1,15 @@
-<div align="center">
-  <img src="docs/logo.png" alt="EmDee" width="110" /><br/><br/>
-  <h1>EmDee</h1>
-  <p>A fast, beautiful Markdown viewer for Windows, Linux, and Android.</p>
+# EmDee
 
-  [![Latest Release](https://img.shields.io/github/v/release/AYJAYY/emdee?style=flat-square&color=6C63FF&label=latest)](https://github.com/AYJAYY/emdee/releases/latest)
-  [![License](https://img.shields.io/badge/license-MIT-6C63FF?style=flat-square)](LICENSE)
-  [![Windows](https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows&logoColor=white)](https://github.com/AYJAYY/emdee/releases/latest)
-  [![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://github.com/AYJAYY/emdee/releases/latest)
-  [![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)](https://github.com/AYJAYY/emdee/releases/latest)
+![EmDee](docs/logo.png)
 
-  <br/>
+A fast, beautiful Markdown viewer for Windows, Linux, and Android.
 
-  <img src="flatpak/screenshots/screenshot-1.png" alt="EmDee screenshot" width="840" />
+[![License](https://img.shields.io/badge/license-MIT-6C63FF?style=flat-square)](LICENSE)
+[![Windows](https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows&logoColor=white)](https://github.com/AYJAYY/emdee/releases/latest)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://github.com/AYJAYY/emdee/releases/latest)
+[![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)](https://github.com/AYJAYY/emdee/releases/latest)
 
-</div>
-
-<br/>
+---
 
 ## Install
 
@@ -45,7 +39,7 @@ sudo rpm -i EmDee-<version>-1.x86_64.rpm
 chmod +x EmDee_<version>_amd64.AppImage && ./EmDee_<version>_amd64.AppImage
 ```
 
-**Linux — Flatpak** *(Flathub submission in review)*
+**Linux — Flatpak** *(coming soon)*
 
 ```bash
 flatpak install flathub io.github.AYJAYY.EmDee
@@ -148,6 +142,4 @@ docs/               # Project website (GitHub Pages)
 
 ---
 
-<div align="center">
-  <sub>Built with <a href="https://tauri.app">Tauri</a> · <a href="https://capacitorjs.com">Capacitor</a> · <a href="https://react.dev">React</a></sub>
-</div>
+Built with [Tauri](https://tauri.app) · [Capacitor](https://capacitorjs.com) · [React](https://react.dev)
