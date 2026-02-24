@@ -1,6 +1,6 @@
 # EmDee
 
-![EmDee](docs/logo.png)
+<img src="docs/logo.png" alt="EmDee" width="110" />
 
 A fast, beautiful Markdown viewer for Windows, Linux, and Android.
 
@@ -37,12 +37,6 @@ sudo rpm -i EmDee-<version>-1.x86_64.rpm
 
 ```bash
 chmod +x EmDee_<version>_amd64.AppImage && ./EmDee_<version>_amd64.AppImage
-```
-
-**Linux — Flatpak** *(coming soon)*
-
-```bash
-flatpak install flathub io.github.AYJAYY.EmDee
 ```
 
 **Android**
