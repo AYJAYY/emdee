@@ -5,9 +5,6 @@
 A fast, beautiful Markdown viewer for Windows, Linux, and Android.
 
 [![License](https://img.shields.io/badge/license-MIT-6C63FF?style=flat-square)](LICENSE)
-![Windows](https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
-![Android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=android&logoColor=white)
 
 ---
 
