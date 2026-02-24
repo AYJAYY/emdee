@@ -78,10 +78,19 @@
     }
 
     .nav__logo {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
       font-size: 1.4rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       text-decoration: none;
+    }
+
+    .nav__logo-img {
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
     }
     .nav__logo-em { color: var(--purple-light); }
     .nav__logo-dee { color: var(--white); }
@@ -696,6 +705,7 @@
   <!-- Nav -->
   <nav aria-label="Site navigation">
     <a href="#" class="nav__logo" aria-label="EmDee home">
+      <img src="logo.png" alt="" aria-hidden="true" class="nav__logo-img" />
       <span class="nav__logo-em">Em</span><span class="nav__logo-dee">Dee</span>
     </a>
     <ul class="nav__links">

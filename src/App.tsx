@@ -5,6 +5,7 @@ import { TocPanel } from "./components/TocPanel/TocPanel";
 import { WelcomeScreen } from "./components/WelcomeScreen/WelcomeScreen";
 import { useAppStore } from "./store/appStore";
 import { openFileDialog } from "./adapters/dialog";
+import { isTauri } from "./adapters/fs";
 import { useFile } from "./hooks/useFile";
 import { useMarkdown } from "./hooks/useMarkdown";
 import { exportAsHtml } from "./utils/htmlExport";
@@ -44,7 +45,7 @@ export default function App() {
   // Open file passed as CLI argument (e.g. double-clicked .md file on Windows)
   useEffect(() => {
     async function checkInitialFile() {
-      if (!window.__TAURI_INTERNALS__) return;
+      if (!isTauri()) return;
       try {
         const { invoke } = await import("@tauri-apps/api/core");
         const path = await invoke<string | null>("get_initial_file");

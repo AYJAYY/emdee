@@ -90,15 +90,10 @@
   font-style: italic;
 }
 
-/* Narrow screens: overlay instead of layout shift */
+/* Narrow screens: hide TOC entirely — not enough room */
 @media (max-width: 640px) {
   .toc-panel {
-    position: absolute;
-    top: var(--toolbar-height);
-    left: 0;
-    bottom: 0;
-    z-index: 50;
-    box-shadow: var(--shadow-md);
+    display: none !important;
   }
 }
 
