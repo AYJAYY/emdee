@@ -5,7 +5,7 @@ import taskLists from "markdown-it-task-lists";
 import hljs from "highlight.js";
 import DOMPurify from "dompurify";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import { isTauri } from "../adapters/fs";
+import { isTauri, isCapacitor } from "../adapters/fs";
 
 function escapeHtml(s: string): string {
   return s
