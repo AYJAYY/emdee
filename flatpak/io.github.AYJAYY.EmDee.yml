@@ -23,7 +23,7 @@ modules:
       - install -Dm644 usr/share/icons/hicolor/128x128/apps/emdee.png /app/share/icons/hicolor/128x128/apps/io.github.AYJAYY.EmDee.png
       - install -Dm644 usr/share/icons/hicolor/256x256@2/apps/emdee.png /app/share/icons/hicolor/256x256@2/apps/io.github.AYJAYY.EmDee.png
       - install -Dm644 usr/share/applications/EmDee.desktop /app/share/applications/io.github.AYJAYY.EmDee.desktop
-      - desktop-file-edit --set-icon=io.github.AYJAYY.EmDee --set-key=Categories --set-value=Utility;Viewer; /app/share/applications/io.github.AYJAYY.EmDee.desktop
+      - desktop-file-edit --set-icon=io.github.AYJAYY.EmDee --set-key=Categories "--set-value=Utility;Viewer;" /app/share/applications/io.github.AYJAYY.EmDee.desktop
       - install -Dm644 io.github.AYJAYY.EmDee.metainfo.xml /app/share/metainfo/io.github.AYJAYY.EmDee.metainfo.xml
     sources:
       - type: file
