@@ -1,5 +1,5 @@
 PackageIdentifier: AYJAYY.EmDee
-PackageVersion: 0.2.1
+PackageVersion: 0.3.2
 PackageLocale: en-US
 Publisher: AYJAYY
 PackageName: EmDee
@@ -17,6 +17,6 @@ Tags:
   - reader
   - md
   - text
-ReleaseNotesUrl: https://github.com/AYJAYY/emdee/releases/tag/v0.2.1
+ReleaseNotesUrl: https://github.com/AYJAYY/emdee/releases/tag/v0.3.2
 ManifestType: defaultLocale
 ManifestVersion: 1.6.0
