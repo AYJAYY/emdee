@@ -12,11 +12,7 @@ A fast, beautiful Markdown viewer for Windows, Linux, and Android.
 
 **Windows**
 
-```
-winget install AYJAYY.EmDee
-```
-
-Or download the `.exe` from the [latest release](https://github.com/AYJAYY/emdee/releases/latest). Windows may show a SmartScreen prompt on first run — click **More info → Run anyway**.
+Download the `.exe` from the [latest release](https://github.com/AYJAYY/emdee/releases/latest). Windows may show a SmartScreen prompt on first run — click **More info → Run anyway**.
 
 **Linux — Debian / Ubuntu**
 
