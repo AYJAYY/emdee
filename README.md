@@ -1,6 +1,6 @@
 # EmDee
 
-<img src="docs/logo.png" alt="EmDee" width="110" />
+![EmDee](docs/logo.png)
 
 A fast, beautiful Markdown viewer for Windows, Linux, and Android.
 
@@ -92,7 +92,6 @@ src/
 src-tauri/
 └── src/lib.rs      # Rust: read_file, get_initial_file commands
 android/            # Capacitor Android project
-flatpak/            # Flatpak / Flathub distribution files
 winget-pkgs/        # Winget package manifests
 docs/               # Project website (GitHub Pages)
 ```
