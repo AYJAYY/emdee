@@ -8,36 +8,6 @@ A fast, beautiful Markdown viewer for Windows, Linux, and Android.
 
 ---
 
-## Install
-
-**Windows**
-
-Download the `.exe` from the [latest release](https://github.com/AYJAYY/emdee/releases/latest). Windows may show a SmartScreen prompt on first run — click **More info → Run anyway**.
-
-**Linux — Debian / Ubuntu**
-
-```bash
-sudo dpkg -i EmDee_<version>_amd64.deb
-```
-
-**Linux — RPM (Fedora, openSUSE)**
-
-```bash
-sudo rpm -i EmDee-<version>-1.x86_64.rpm
-```
-
-**Linux — AppImage (universal)**
-
-```bash
-chmod +x EmDee_<version>_amd64.AppImage && ./EmDee_<version>_amd64.AppImage
-```
-
-**Android**
-
-Download the `.apk` from the [latest release](https://github.com/AYJAYY/emdee/releases/latest). Enable **Install from unknown sources** in your device settings, then open the APK.
-
----
-
 ## Features
 
 - **Beautiful typography** — comfortable reading at any document length
