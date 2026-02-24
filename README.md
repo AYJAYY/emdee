@@ -1,6 +1,6 @@
 # EmDee
 
-![EmDee](docs/logo.png)
+![EmDee](https://raw.githubusercontent.com/AYJAYY/emdee/main/docs/logo.png)
 
 A fast, beautiful Markdown viewer for Windows, Linux, and Android.
 
